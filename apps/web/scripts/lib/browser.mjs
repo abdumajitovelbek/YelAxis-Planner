@@ -54,8 +54,10 @@ export const chromium = instrumentBrowser(nativeChromium);
 export const firefox = instrumentBrowser(nativeFirefox);
 
 /** Use the pinned Playwright browser unless the contributor deliberately selects another binary. */
-export function chromiumExecutableOptions(env = process.env) {
-  const path = env.CHROMIUM_EXECUTABLE_PATH;
+export function chromiumExecutableOptions(env = process.env, { nativePermissions = false } = {}) {
+  const path =
+    env.CHROMIUM_EXECUTABLE_PATH ||
+    (nativePermissions ? nativeChromium.executablePath() : undefined);
   if (!path) return {};
   if (!isAbsolute(path)) throw new Error('CHROMIUM_EXECUTABLE_PATH must be an absolute path.');
   return { executablePath: path };

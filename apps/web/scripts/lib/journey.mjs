@@ -41,7 +41,7 @@ export function addDays(date, days) {
  * printed as JSON; a failure leaves a full-page screenshot of the latest page.
  */
 export async function runJourney(
-  { basePort = 7100, name, timeZone, timeoutMinutes = 10, title },
+  { basePort = 7100, name, timeZone, timeoutMinutes = 10, title, nativePermissions = false },
   body,
 ) {
   const inFirefox = process.argv.includes('--firefox');
@@ -108,7 +108,7 @@ export async function runJourney(
           locale: 'en-US',
         });
       return chromium.launchPersistentContext(profileDirectory, {
-        ...chromiumExecutableOptions(),
+        ...chromiumExecutableOptions(process.env, { nativePermissions }),
         headless: true,
         args: ['--no-sandbox', '--disable-gpu'],
         viewport: { width: 1280, height: 800 },

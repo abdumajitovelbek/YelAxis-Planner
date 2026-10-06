@@ -89,6 +89,9 @@ await runJourney(
     timeZone: 'UTC',
     basePort: 8700,
     timeoutMinutes: 12,
+    // Headless Shell reports denied independently of native browser permission controls.
+    // Use the pinned full Chromium binary to verify actual permission denial and grant.
+    nativePermissions: true,
   },
   async (j) => {
     const started = Date.now();
