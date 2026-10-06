@@ -1,0 +1,30 @@
+/* Day layout: the timeline beside the flexible list and Backlog when there is room. */
+
+.day-board {
+  min-width: 0;
+  container: day-board / inline-size;
+}
+
+.day-board-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.day-side {
+  display: grid;
+  min-width: 0;
+  gap: 1.25rem;
+}
+
+.day-timeline-section > p {
+  margin-block: 0 0.75rem;
+}
+
+@container day-board (min-width: 880px) {
+  .day-board-grid {
+    grid-template-columns: minmax(0, 1.7fr) minmax(16rem, 1fr);
+  }
+}

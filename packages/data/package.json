@@ -1,0 +1,25 @@
+{
+  "name": "@yelaxis/data",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./browser": "./src/sqlite/browser/browser-driver.ts"
+  },
+  "scripts": {
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc --project tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@noble/hashes": "1.8.0",
+    "@yelaxis/application": "workspace:*",
+    "@yelaxis/domain": "workspace:*",
+    "wa-sqlite": "1.0.0",
+    "zod": "4.4.3"
+  },
+  "license": "Apache-2.0"
+}

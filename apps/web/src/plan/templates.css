@@ -1,0 +1,206 @@
+/* Templates list, template detail, apply preview, and template editor. */
+
+.templates-page,
+.template-detail {
+  width: min(1040px, 100%);
+  min-width: 0;
+}
+
+.templates-page h1,
+.template-detail h1 {
+  max-width: 24ch;
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  overflow-wrap: anywhere;
+}
+
+.template-group h2,
+.template-apply h2,
+.template-editor h2 {
+  margin-block: 2rem 0.75rem;
+  font-size: 1.35rem;
+}
+
+.template-group-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.template-toolbar,
+.template-card-actions,
+.template-actions,
+.template-editor-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+}
+
+.template-toolbar .inline-button,
+.template-card-actions .inline-button {
+  margin-block-start: 0;
+}
+
+.template-list,
+.template-items,
+.template-editor-items {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.template-list {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+
+.template-card,
+.template-item,
+.template-editor-item > fieldset {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 24%, transparent);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  background: var(--bg-raised);
+}
+
+.template-card {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.template-card p {
+  margin: 0;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.template-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.template-card-heading h3 {
+  margin: 0;
+  min-width: 0;
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.template-card .status-pill {
+  text-transform: none;
+}
+
+.template-apply {
+  margin-block-start: 1.5rem;
+}
+
+.template-apply-fields {
+  align-items: start;
+}
+
+.template-item {
+  margin-inline-start: calc(var(--depth, 0) * 1.5rem);
+}
+
+.template-item.has-issue {
+  border-color: var(--warning);
+  box-shadow: inset 4px 0 0 var(--warning);
+}
+
+.template-item p {
+  margin: 0.25rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.template-item-choice {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.template-item-choice input {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  accent-color: var(--accent);
+}
+
+.template-item-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.template-kind {
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.template-item-schedule {
+  color: var(--text-muted);
+}
+
+.template-apply .warning-note ul,
+.template-editor .validation-summary ul {
+  margin: 0.25rem 0 0;
+  padding-inline-start: 1.25rem;
+}
+
+.template-overlaps {
+  margin-block-start: 1rem;
+}
+
+.template-overlaps p {
+  margin: 0;
+}
+
+.template-applied {
+  margin-block-start: 1rem;
+  border-inline-start: 3px solid var(--success);
+  padding: 0.75rem 1rem;
+  background: color-mix(in srgb, var(--success) 12%, var(--bg-raised));
+}
+
+.template-applied p {
+  margin: 0;
+}
+
+.template-editor-item > fieldset {
+  margin: 0;
+}
+
+.template-editor-item legend {
+  padding-inline: 0.35rem;
+  font-weight: 700;
+}
+
+.template-editor .field-label {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .template-apply-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .template-item {
+    margin-inline-start: calc(var(--depth, 0) * 0.75rem);
+  }
+}

@@ -1,0 +1,90 @@
+/* Routine form, repeat fields, and occurrence preview. */
+
+.routine-form,
+.routine-fields {
+  min-width: 0;
+}
+
+.routine-fields {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.routine-fieldset {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  border-radius: 14px;
+  padding: 0.75rem 1rem 1rem;
+}
+
+.routine-fieldset.nested {
+  margin-block: 0.75rem;
+}
+
+.routine-fieldset > legend {
+  padding-inline: 0.35rem;
+  font-weight: 700;
+}
+
+.routine-choice-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+}
+
+.routine-fields .field-label,
+.routine-defaults .field-label {
+  min-width: 0;
+}
+
+.routine-fields.compact .routine-fieldset {
+  padding: 0.5rem 0.75rem 0.75rem;
+}
+
+.zone-picker {
+  display: grid;
+  gap: 0;
+}
+
+.routine-preview {
+  border: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+}
+
+.routine-preview h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.routine-preview-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-inline-start: 1.5rem;
+}
+
+.routine-preview-list li {
+  overflow-wrap: anywhere;
+}
+
+.routine-preview-list li > span {
+  display: block;
+  color: var(--text-muted);
+}
+
+.routine-preview-list li > span.warning-text {
+  color: var(--warning-text);
+}
+
+.routine-preview-issues {
+  margin: 0.25rem 0 0;
+  padding-inline-start: 1.25rem;
+}
+
+.validation-summary ul {
+  margin: 0.25rem 0 0;
+  padding-inline-start: 1.25rem;
+}

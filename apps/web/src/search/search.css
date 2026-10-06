@@ -1,0 +1,90 @@
+.search-page {
+  inline-size: min(100%, 72rem);
+  margin-inline: auto;
+  padding: clamp(1rem, 2vw, 2rem);
+}
+.search-page header p,
+.search-hint,
+.search-result-meta {
+  color: var(--text-muted);
+}
+.search-form,
+.search-form label {
+  display: grid;
+  gap: 0.5rem;
+  min-inline-size: 0;
+}
+.search-form {
+  gap: 1rem;
+}
+.search-form input,
+.search-form select {
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 2.75rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 50%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  color: var(--text);
+  background: var(--surface);
+  font: inherit;
+}
+.search-form fieldset {
+  min-inline-size: 0;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.search-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+}
+.search-form > button {
+  justify-self: start;
+}
+.search-result-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.search-result-list li {
+  border: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  min-inline-size: 0;
+}
+.search-result-list h3,
+.search-result-meta {
+  margin-block: 0 0.5rem;
+}
+.search-result-list a {
+  display: inline-block;
+  padding-block: 0.5rem;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+}
+.search-result-excerpt,
+.search-detail-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.search-pagination,
+.search-detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.search-detail-links a {
+  padding-block: 0.75rem;
+}
+.search-detail-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+}
+.search-detail-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}

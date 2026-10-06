@@ -1,0 +1,39 @@
+/* Shared planning surfaces. View-specific rules live beside each view. */
+
+.plan-dialog {
+  width: min(640px, calc(100% - 2rem));
+}
+
+.plan-dialog form,
+.plan-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.plan-dialog input:not([type='checkbox'], [type='radio']),
+.plan-dialog select,
+.plan-dialog textarea,
+.plan-form input:not([type='checkbox'], [type='radio']),
+.plan-form select,
+.plan-form textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.warning-note {
+  border-inline-start: 4px solid var(--warning);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  color: var(--text);
+}
+
+.warning-text {
+  color: var(--warning-text);
+  font-weight: 600;
+}

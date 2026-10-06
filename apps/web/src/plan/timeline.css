@@ -1,0 +1,225 @@
+/* Plan views, form helpers, and the Day timeline. */
+
+.plan-view {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+.plan-view-header {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.plan-view-header > * {
+  margin: 0;
+}
+
+.plan-view h1 {
+  max-width: none;
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+}
+
+.plan-view h1:focus {
+  outline: none;
+}
+
+.plan-view h1:focus-visible {
+  outline: 3px solid var(--focus);
+}
+
+.plan-view h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+}
+
+.plan-view h3 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.plan-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.5rem !important;
+}
+
+.plan-section {
+  min-width: 0;
+}
+
+.plan-section ul,
+.plan-view .entry-list,
+.plan-view .action-list,
+.plan-view .routine-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capacity-summary {
+  color: var(--text);
+}
+
+.capacity-summary a {
+  color: var(--accent-text);
+}
+
+.conflict-count a {
+  color: inherit;
+}
+
+.interval-preview {
+  display: grid;
+  gap: 0.5rem;
+  min-height: 1.5rem;
+}
+
+.interval-preview > *,
+.interval-summary {
+  margin: 0;
+}
+
+.interval-preview ul {
+  margin: 0.25rem 0 0;
+  padding-inline-start: 1.25rem;
+}
+
+.check-row {
+  display: flex;
+  min-height: 44px;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding-block: 0.35rem;
+  cursor: pointer;
+}
+
+.check-row input {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: none;
+  margin-block-start: 0.2rem;
+  accent-color: var(--accent);
+}
+
+.block-help {
+  display: block;
+  font-weight: 400;
+}
+
+/* Timeline: an ordered list laid out on a 15-minute grid; rows grow to fit their content. */
+
+.day-timeline {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.timeline-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timeline-toolbar p {
+  margin: 0;
+}
+
+.timeline-grid {
+  display: grid;
+  min-width: 0;
+  column-gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-hour {
+  grid-column: 1 / -1;
+  border-block-start: 1px solid color-mix(in srgb, var(--text-muted) 22%, transparent);
+  transition: background-color 120ms ease;
+}
+
+.timeline-hour.is-drop-target {
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.timeline-hour-label {
+  display: block;
+  width: 4.25rem;
+  padding: 0.1rem 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline-entry {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding-block: 2px;
+}
+
+.timeline-entry > .timed-entry {
+  height: 100%;
+}
+
+/* Many simultaneous entries cannot be legible as hundreds of narrow implicit columns. */
+.timeline-grid.is-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Spatial time is read left to right in either locale; controls retain their document direction. */
+.timeline-grid {
+  direction: ltr;
+}
+
+:root[dir='rtl'] .timeline-entry {
+  direction: rtl;
+}
+
+/* Today's current-time marker: decorative (the toolbar text says the time), never animated. */
+
+.timeline-now-text {
+  color: var(--text);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline-now {
+  position: relative;
+  z-index: 2;
+  grid-column: 1 / -1;
+  pointer-events: none;
+}
+
+.timeline-now-line {
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: translateY(-1px);
+  transition: none;
+}
+
+.timeline-now-label {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: 2px;
+  border-radius: 6px;
+  padding: 0 0.3rem;
+  background: var(--accent);
+  /* Dark text on the accent in both themes (as .primary-button) keeps the label above 4.5:1. */
+  color: #06111c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.4;
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@yelaxis/sync",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/testing/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc --project tsconfig.json",
+    "test": "vitest run --passWithNoTests --exclude 'src/backend/**'",
+    "test:backend": "vitest run --config vitest.backend.config.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.2",
+    "@yelaxis/application": "workspace:*",
+    "@yelaxis/domain": "workspace:*",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@yelaxis/data": "workspace:*"
+  },
+  "license": "Apache-2.0"
+}

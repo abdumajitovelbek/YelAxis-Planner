@@ -1,0 +1,17 @@
+{
+  "name": "@yelaxis/i18n",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc --project tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "license": "Apache-2.0"
+}

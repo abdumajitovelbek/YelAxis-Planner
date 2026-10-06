@@ -1,0 +1,20 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+allowBuilds:
+  # Vitest uses esbuild's reviewed platform binary. The ESLint resolver ships
+  # an optional binding and does not need its postinstall fallback here.
+  esbuild: true
+  unrs-resolver: false
+
+# Targeted patched dependency families; no telemetry/provider additions.
+overrides:
+  'brace-expansion@<2': '1.1.21'
+  'brace-expansion@>=2 <3': '2.1.7'
+  'brace-expansion@>=4 <6': '5.0.12'
+  'fast-uri@>=3 <4': '3.1.8'
+  'js-yaml@>=4 <5': '4.3.2'
+  'postcss@>=8 <9': '8.5.23'
+  'nanoid@>=3 <4': '3.3.18'
+  'undici@>=7 <8': '7.29.1'
+  'source-map-js@>=1 <2': '1.2.2'

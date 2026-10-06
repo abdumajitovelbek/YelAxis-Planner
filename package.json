@@ -1,0 +1,57 @@
+{
+  "name": "yelaxis-planner",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "description": "Local-first planning for every horizon, with optional account synchronization.",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": ">=11.9.0 <12"
+  },
+  "scripts": {
+    "check": "pnpm run policy:check && pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test",
+    "docs:check": "node scripts/check-doc-links.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "pnpm --recursive --if-present --filter './apps/**' --filter './packages/**' run lint",
+    "policy:check": "pnpm run docs:check && pnpm run scanners:test && pnpm run secrets:scan && pnpm run product:check && pnpm run release:sources",
+    "scanners:test": "node --test scripts/tests/*.test.mjs",
+    "secrets:scan": "node scripts/scan-secrets.mjs",
+    "supabase:reset": "node scripts/manage-local-stack.mjs reset",
+    "supabase:start": "node scripts/manage-local-stack.mjs start",
+    "supabase:stop": "node scripts/manage-local-stack.mjs stop",
+    "test": "pnpm --recursive --if-present --filter './apps/**' --filter './packages/**' run test",
+    "test:backend": "node scripts/check-supabase-stack.mjs && pnpm --filter @yelaxis/sync run test:backend",
+    "typecheck": "pnpm --recursive --if-present --filter './apps/**' --filter './packages/**' run typecheck",
+    "web:verify": "node scripts/verify-web.mjs",
+    "release:sources": "node scripts/check-release.mjs",
+    "release:artifact": "node scripts/check-release.mjs --artifact",
+    "release:dependencies": "pnpm audit --audit-level=low",
+    "release:verify": "pnpm --filter web run build && pnpm run release:artifact && pnpm run release:dependencies && pnpm --filter web run test:release-accessibility && pnpm --filter web run test:release-accessibility-firefox && pnpm --filter web run test:release-performance && pnpm --filter web run test:release-performance-firefox && pnpm --filter web run test:release-security && pnpm --filter web run test:release-security-firefox",
+    "dev": "pnpm --filter web run dev",
+    "build": "pnpm --filter web run build",
+    "preview": "pnpm --filter web run preview",
+    "product:check": "node scripts/check-product-boundary.mjs",
+    "supabase:configure-web": "node scripts/configure-web-account.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.4",
+    "@types/node": "^24.13.3",
+    "eslint": "9.39.4",
+    "prettier": "3.9.6",
+    "supabase": "2.118.0",
+    "tsx": "4.23.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.65.0",
+    "vitest": "4.1.11"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abdumajitovelbek/YelAxis-Planner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/abdumajitovelbek/YelAxis-Planner/issues"
+  },
+  "homepage": "https://github.com/abdumajitovelbek/YelAxis-Planner#readme"
+}

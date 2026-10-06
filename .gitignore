@@ -1,0 +1,49 @@
+# Dependencies and package-manager state
+node_modules/
+.pnpm-store/
+
+# Generated build output
+dist/
+build/
+.turbo/
+
+# Tests and TypeScript
+coverage/
+*.tsbuildinfo
+
+# Local environment files; the reviewed template remains committed
+.env
+.env.*
+!.env.example
+
+# Logs and diagnostics
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local SQLite sidecars and Supabase state
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+*.db-journal
+*.db-shm
+*.db-wal
+supabase/.temp/
+supabase/.branches/
+
+# Signing material must never be committed
+*.p8
+*.p12
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

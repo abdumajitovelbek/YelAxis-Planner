@@ -1,0 +1,38 @@
+/* Routine Occurrence controls. Skipped uses neutral styling, never an alarm color. */
+
+.occurrence-controls {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+}
+
+.occurrence-controls > .field-help {
+  margin: 0;
+}
+
+.occurrence-state {
+  justify-self: start;
+  padding: 0.15rem 0.6rem;
+  text-transform: none;
+}
+
+.routine-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-text);
+}
+
+.routine-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.routine-list > li {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 24%, transparent);
+  border-radius: 10px;
+  padding: 0.55rem 0.65rem;
+  background: var(--bg-raised);
+}

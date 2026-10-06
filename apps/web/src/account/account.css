@@ -1,0 +1,600 @@
+/* Account and sync . Tokens only, so both themes follow the app theme; no animation. */
+
+.account-page {
+  display: flow-root;
+  width: min(880px, 100%);
+  min-width: 0;
+}
+
+/* Spacing by margins, so an empty status region adds no gap. */
+.account-page > * {
+  margin-block: 0;
+}
+
+.account-page > * + * {
+  margin-block-start: 1.75rem;
+}
+
+.account-page > .account-status-region:empty {
+  margin-block-start: 0;
+}
+
+.account-page > .danger-zone {
+  margin-block-start: 3rem;
+}
+
+.account-header {
+  display: grid;
+  min-width: 0;
+  gap: 0.5rem;
+}
+
+.account-header > * {
+  margin: 0;
+}
+
+.account-header h1 {
+  max-width: none;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  overflow-wrap: anywhere;
+}
+
+.account-header h1:focus {
+  outline: none;
+}
+
+.account-header .back-link {
+  justify-self: start;
+  margin: 0;
+}
+
+.account-intro {
+  max-width: 60ch;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.account-loading {
+  color: var(--text-muted);
+}
+
+/* ───────── Sections ───────── */
+
+.account-section {
+  display: grid;
+  min-width: 0;
+  gap: 0.85rem;
+}
+
+.account-section h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  overflow-wrap: anywhere;
+}
+
+.account-section h3,
+.account-scope h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.account-section h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.account-section > p,
+.account-section .field-help,
+.account-wide-help {
+  margin: 0;
+  max-width: 65ch;
+  overflow-wrap: anywhere;
+}
+
+.account-section a,
+.account-backup a,
+.account-dialog-body a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-text);
+  overflow-wrap: anywhere;
+}
+
+.account-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1.5rem 2rem;
+}
+
+.account-attention {
+  border-inline-start: 3px solid var(--warning);
+  padding-inline-start: 1rem;
+}
+
+.account-lead {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ───────── States, facts, and results ───────── */
+
+.account-state,
+.account-note,
+.account-result {
+  margin: 0;
+  border-inline-start: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  overflow-wrap: anywhere;
+}
+
+/* The words carry the state; the border only repeats it. */
+.account-state[data-state='needs_attention'],
+.account-state[data-state='auth_expired'],
+.account-state[data-state='server_unavailable'],
+.account-state[data-state='deletion_pending'],
+.account-note {
+  border-color: var(--warning);
+}
+
+.account-result {
+  border-color: var(--success);
+  font-weight: 650;
+}
+
+.account-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+
+.account-facts div {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 0.15rem;
+}
+
+.account-facts dt {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.account-facts dd {
+  margin: 0;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.account-counts {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.account-counts li {
+  overflow-wrap: anywhere;
+}
+
+.account-warning {
+  display: grid;
+  gap: 0.75rem;
+  border-inline-start: 3px solid var(--warning);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.account-warning > p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.account-file {
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.account-backup {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ───────── Forms ───────── */
+
+.account-form {
+  display: grid;
+  min-width: 0;
+  gap: 0.85rem;
+}
+
+.account-form > .validation-summary,
+.account-section > .validation-summary,
+.account-dialog-body > .validation-summary {
+  margin: 0;
+}
+
+.account-field {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+}
+
+.account-field label {
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.account-field .field-help {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.account-field input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.account-field input[aria-invalid='true'],
+.account-choice:has(input[aria-invalid='true']) {
+  border-color: var(--warning);
+}
+
+.account-field-error {
+  margin: 0;
+  color: var(--warning-text);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.account-actions .inline-button {
+  margin-block-start: 0;
+}
+
+.account-export {
+  display: flow-root;
+  min-width: 0;
+}
+
+.account-export > * {
+  margin-block: 0;
+}
+
+.account-export > * + * {
+  margin-block-start: 0.75rem;
+}
+
+.account-export > .account-status-region:empty {
+  margin-block-start: 0;
+}
+
+.account-ack {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.account-ack .toggle-row,
+.account-warning .toggle-row,
+.account-scope .toggle-row {
+  align-items: flex-start;
+  padding-block: 0.6rem;
+}
+
+.account-fieldset {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.account-fieldset > legend {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.account-choice-list {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.account-choice-list .field-help {
+  margin: 0 0 0.4rem;
+}
+
+.account-choice {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  background: var(--bg);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+/* Checked is also the radio's own dot and a heavier weight, never color alone. */
+.account-choice:has(input:checked) {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  font-weight: 650;
+}
+
+.account-choice input {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.account-progress {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.account-progress label {
+  font-weight: 650;
+}
+
+.account-progress progress {
+  width: min(28rem, 100%);
+  height: 1rem;
+  accent-color: var(--accent);
+}
+
+.account-progress p {
+  margin: 0;
+}
+
+/* ───────── Conflicts ───────── */
+
+.account-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-row {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  border-radius: 12px;
+  padding: 0.5rem 1rem 0.75rem;
+  background: var(--bg-raised);
+}
+
+.account-row a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-self: start;
+  color: var(--accent-text);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.account-row-facts {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+/* A wide table scrolls inside its own region (a data table may need two dimensions). */
+.account-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  border-radius: 12px;
+}
+
+.account-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.account-table caption {
+  padding: 0.65rem 0.85rem 0.35rem;
+  color: var(--text-muted);
+  font-weight: 650;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+
+.account-table th,
+.account-table td {
+  min-width: 6rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  padding: 0.6rem 0.85rem;
+  text-align: start;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.account-table thead th {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.account-table tbody th {
+  font-weight: 650;
+}
+
+.account-choices {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-choices li {
+  display: grid;
+  justify-items: start;
+  gap: 0.3rem;
+}
+
+.account-choices .field-help {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ───────── Dialogs ───────── */
+
+.account-dialog {
+  width: min(640px, calc(100% - 2rem));
+}
+
+.account-dialog-body {
+  display: grid;
+  min-width: 0;
+  gap: 0.85rem;
+}
+
+.account-dialog-body > p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.account-dialog-body .dialog-actions {
+  flex-wrap: wrap;
+  margin-block-start: 0.5rem;
+}
+
+.account-scope {
+  display: grid;
+  gap: 0.45rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  padding-block-start: 0.75rem;
+}
+
+.account-scope p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.account-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+}
+
+.account-switch .text-button {
+  padding-inline: 0.5rem;
+}
+
+/* ───────── Frame, Today, Settings, and the welcome step ───────── */
+
+.sync-status-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.35rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.sync-status-text {
+  overflow-wrap: anywhere;
+}
+
+.sync-status-line a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* A quiet line when sync waits or needs an action: plain text, never a warning or a dialog. */
+.today-sync-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.75rem;
+  justify-self: start;
+  margin: 0;
+  border-inline-start: 3px solid var(--text-muted);
+  padding-inline: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.today-sync-notice a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-text);
+}
+
+.account-settings-link {
+  flex: none;
+  margin-block-start: 0;
+}
+
+.welcome-actions {
+  flex-wrap: wrap;
+}
+
+/*
+ * The outcome of an account operation that switched the open plan, shown once where the person is
+ * (the frame, or above setup). The words carry it; the border only repeats it.
+ */
+.account-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  margin-block: 0 1rem;
+  border-inline-start: 3px solid var(--success);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem 0.4rem 1rem;
+  background: color-mix(in srgb, var(--success) 12%, var(--bg-raised));
+  overflow-wrap: anywhere;
+}
+
+.account-notice:has([role='alert']) {
+  border-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 12%, var(--bg-raised));
+}
+
+.account-notice > [role] {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.account-notice-text {
+  margin: 0;
+  font-weight: 650;
+}

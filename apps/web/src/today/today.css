@@ -1,0 +1,237 @@
+/* Today : header, day navigation, the timeline beside flexible work, and calm states. */
+
+.today-page {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+.today-header {
+  display: grid;
+  min-width: 0;
+  gap: 0.6rem;
+}
+
+.today-header > *,
+.today-facts > * {
+  margin: 0;
+}
+
+.today-page h1 {
+  max-width: 24ch;
+  font-size: clamp(1.9rem, 3.4vw, 3.25rem);
+  overflow-wrap: anywhere;
+}
+
+.today-page h1:focus {
+  outline: none;
+}
+
+.today-page h1:focus-visible {
+  outline: 3px solid var(--focus);
+}
+
+.today-page h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+}
+
+.today-page h3 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.today-selected-banner a,
+.today-facts a,
+.today-day-nav a,
+.today-end a {
+  color: var(--accent-text);
+}
+
+.today-selected-banner {
+  justify-self: start;
+  border-inline-start: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.today-selected-banner a,
+.today-facts a,
+.today-day-nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.today-day-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.today-day-nav a {
+  padding-inline: 0.25rem;
+  font-weight: 600;
+}
+
+.today-day-nav a[aria-current='page'] {
+  color: var(--text);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+
+.today-facts {
+  display: grid;
+  gap: 0.25rem;
+}
+
+/* A quiet line when a review is ready: plain text, never a warning or a dialog. */
+.today-review-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.75rem;
+  justify-self: start;
+  border-inline-start: 3px solid var(--text-muted);
+  padding-inline: 0.85rem;
+}
+
+.today-review-notice a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-text);
+}
+
+.today-section {
+  min-width: 0;
+}
+
+.today-section > p {
+  margin-block: 0 0.75rem;
+}
+
+.today-section ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.today-empty {
+  border-inline-start: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.today-empty > p:last-child {
+  margin-block-end: 0;
+}
+
+.today-error .control-row {
+  margin-block-start: 0.5rem;
+}
+
+/* The timeline beside flexible work when there is room; one column below and at large text. */
+
+.today-board {
+  min-width: 0;
+  container: today-board / inline-size;
+}
+
+.today-board-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.today-side {
+  display: grid;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+@container today-board (min-width: 56rem) {
+  .today-board-grid {
+    grid-template-columns: minmax(0, 1.6fr) minmax(18rem, 1fr);
+  }
+}
+
+/* Flexible Actions: the options disclosure takes its own line inside a row's controls. */
+
+.today-flexible .control-row > .today-more-options {
+  flex-basis: 100%;
+}
+
+.today-more-options > summary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-text);
+  cursor: pointer;
+}
+
+.today-more-options[open] > summary {
+  margin-block-end: 0.35rem;
+}
+
+.today-flexible button[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.today-done {
+  margin-block-start: 1rem;
+}
+
+.today-done > summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.today-done > ul {
+  margin-block-start: 0.5rem;
+}
+
+/*
+ * The Action just completed settles into Done within the completion motion token (200 ms).
+ * The global reduced-motion rule makes it static.
+ */
+.today-done-item.is-just-completed {
+  animation: today-completed 200ms ease-out;
+}
+
+@keyframes today-completed {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.today-routines .routine-list > li > .control-row:empty {
+  display: none;
+}
+
+/* Title links are targets too: at least 44 px in both directions (WCAG 2.5.8, and the PWA gate). */
+.today-page .action-row-title a,
+.today-page .focus-item-title a {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+}

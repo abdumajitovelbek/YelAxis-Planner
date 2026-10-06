@@ -1,0 +1,333 @@
+/* focus strip, choosing focus, and Focus mode. Tokens only, so both themes follow. */
+
+/* ───────── Focus strip ───────── */
+
+.focus-strip {
+  display: grid;
+  min-width: 0;
+  gap: 0.5rem;
+}
+
+.focus-strip > h2,
+.focus-strip > p {
+  margin: 0;
+}
+
+.focus-list,
+.focus-order {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.focus-item,
+.focus-order-item {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 28%, transparent);
+  border-inline-start: 4px solid var(--accent);
+  border-radius: 12px;
+  padding: 0.65rem 0.8rem;
+  background: var(--bg-raised);
+  overflow-wrap: anywhere;
+}
+
+.focus-position {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.focus-item-main,
+.focus-order-main {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 0.35rem;
+}
+
+.focus-item-main > p,
+.focus-order-main > p {
+  margin: 0;
+}
+
+.focus-item-title,
+.focus-order-title {
+  font-weight: 600;
+}
+
+.focus-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* State text is written in sentence case and must read exactly as written. */
+.focus-state {
+  padding-block: 0.3rem;
+  text-transform: none;
+}
+
+.focus-choose {
+  justify-self: start;
+}
+
+.add-to-focus {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.add-to-focus > button {
+  min-height: 44px;
+}
+
+.add-to-focus button[aria-disabled='true'],
+.focus-strip button[aria-disabled='true'],
+.focus-draft button[aria-disabled='true'],
+.focus-mode button[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ───────── Focus draft editor and dialog ───────── */
+
+.focus-draft {
+  display: grid;
+  min-width: 0;
+  gap: 0.75rem;
+}
+
+.focus-draft > p,
+.focus-draft > h3 {
+  margin: 0;
+}
+
+.focus-draft .focus-choice-group {
+  min-width: 0;
+  margin-block: 0;
+}
+
+.focus-draft .focus-choice-group legend {
+  margin-block-end: 0.35rem;
+  font-size: 1rem;
+}
+
+.focus-choice-list {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.focus-choice-list .check-row {
+  overflow-wrap: anywhere;
+}
+
+.focus-choice-list input[aria-disabled='true'] + span {
+  color: var(--text-muted);
+}
+
+.focus-draft-count {
+  font-weight: 600;
+}
+
+.focus-order-heading {
+  font-size: 1.05rem;
+}
+
+.focus-dialog {
+  width: min(680px, calc(100% - 2rem));
+}
+
+/* ───────── Focus mode ───────── */
+
+.focus-mode {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.focus-mode > * {
+  margin-block: 0;
+}
+
+.focus-mode h1 {
+  max-width: 24ch;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  overflow-wrap: anywhere;
+}
+
+.focus-mode h1:focus {
+  outline: none;
+}
+
+.focus-mode h1:focus-visible {
+  outline: 3px solid var(--focus);
+}
+
+.focus-facts {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.focus-facts > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, max-content) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.focus-facts dt {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.focus-facts dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 40rem) {
+  .focus-facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+  }
+}
+
+.focus-note {
+  white-space: pre-wrap;
+}
+
+.focus-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+
+.focus-links a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-text);
+}
+
+.focus-timer {
+  display: grid;
+  min-width: 0;
+  gap: 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 28%, transparent);
+  border-radius: 16px;
+  padding: clamp(0.9rem, 2vw, 1.4rem);
+  background: var(--bg-raised);
+}
+
+.focus-timer > h2,
+.focus-timer > p {
+  margin: 0;
+}
+
+.timer-presets {
+  min-width: 0;
+  margin-block: 0;
+}
+
+.timer-presets legend {
+  font-size: 1rem;
+}
+
+.timer-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timer-options .radio-option {
+  min-height: 44px;
+  padding-block: 0.45rem;
+}
+
+.timer-presets:disabled .radio-option {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.timer-custom {
+  display: grid;
+  max-width: 20rem;
+  gap: 0.35rem;
+  margin-block-start: 0.75rem;
+}
+
+.timer-custom input {
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.timer-custom p {
+  margin: 0;
+}
+
+.timer-reading {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.timer-status {
+  min-height: 1.5em;
+  color: var(--text-muted);
+}
+
+.focus-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.focus-page-actions .inline-button {
+  margin-block-start: 0;
+}
+
+.focus-complete-choices {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.focus-complete-choices p {
+  margin: 0.35rem 0 0;
+}
+
+.focus-choice {
+  display: grid;
+}
+
+.focus-choice > .check-row {
+  padding-block-end: 0;
+}
+
+.focus-choice-detail {
+  margin: 0 0 0.35rem;
+  padding-inline-start: 1.85rem;
+}

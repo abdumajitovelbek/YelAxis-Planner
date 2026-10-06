@@ -1,0 +1,68 @@
+/* Overlaps panel: each unresolved overlap is outlined in amber and named in text. */
+
+.overlaps-panel {
+  display: grid;
+  min-width: 0;
+  gap: 0.5rem;
+}
+
+.overlaps-panel:focus {
+  outline: none;
+}
+
+.overlaps-panel > p {
+  margin: 0;
+}
+
+.conflict-list,
+.kept-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conflict-item {
+  display: grid;
+  gap: 0.6rem;
+  border: 2px solid var(--warning);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, var(--warning) 7%, var(--bg-raised));
+}
+
+.conflict-item h3,
+.conflict-item p {
+  margin: 0;
+}
+
+.conflict-sides {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 0.75rem;
+}
+
+.conflict-side {
+  display: grid;
+  min-width: 0;
+  gap: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.conflict-item > button {
+  justify-self: start;
+}
+
+.kept-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+}
+
+.kept-list .status-pill {
+  padding: 0.15rem 0.55rem;
+  text-transform: none;
+}

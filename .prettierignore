@@ -1,0 +1,10 @@
+.git/
+.pnpm-store/
+.turbo/
+build/
+coverage/
+dist/
+node_modules/
+pnpm-lock.yaml
+LICENSE
+apps/web/public/third-party-notices.txt

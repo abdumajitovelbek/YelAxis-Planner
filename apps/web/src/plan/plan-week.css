@@ -1,0 +1,175 @@
+/*
+ * Week layout. One DOM for every width: at wide container widths seven day columns
+ * sit beside a persistent Backlog sidebar; narrower widths (laptops, zoom) show stacked agenda
+ * day cards with the same Backlog panel. Only CSS changes.
+ */
+
+.fixed-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: 0.75rem;
+}
+
+.entry-day {
+  margin: 0 0 0.25rem;
+  font-weight: 650;
+}
+
+.week-board {
+  min-width: 0;
+  container: week-board / inline-size;
+}
+
+.week-board-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.week-schedule,
+.week-side {
+  display: grid;
+  min-width: 0;
+  gap: 1.25rem;
+}
+
+.week-days {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.week-days > li {
+  min-width: 0;
+}
+
+.day-card {
+  display: grid;
+  height: 100%;
+  min-width: 0;
+  align-content: start;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 24%, transparent);
+  border-radius: 14px;
+  padding: 0.85rem;
+  background: color-mix(in srgb, var(--surface) 45%, transparent);
+  transition: background-color 120ms ease;
+}
+
+.day-card > p {
+  margin: 0;
+}
+
+.day-card.is-today {
+  border-color: var(--accent);
+}
+
+.day-card.is-drop-target {
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.day-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 !important;
+}
+
+.day-card-heading a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--text);
+}
+
+.today-pill {
+  padding: 0.15rem 0.55rem;
+  text-transform: none;
+}
+
+.day-capacity {
+  font-size: 0.9rem;
+}
+
+.side-section {
+  border: 1px solid color-mix(in srgb, var(--text-muted) 20%, transparent);
+  border-radius: 14px;
+  padding: 1rem;
+  background: var(--bg-raised);
+}
+
+.side-section > p {
+  margin-block: 0 0.75rem;
+}
+
+.carry-form {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.carry-form .field-label {
+  margin-block: 0.5rem;
+}
+
+.carry-form select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 10px;
+  padding: 0.45rem 0.65rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.carry-form > p {
+  margin: 0;
+}
+
+.commitment-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.commitment-list li p {
+  margin: 0;
+}
+
+/* Agenda with a compact side column beside it. */
+@container week-board (min-width: 760px) {
+  .week-board-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem);
+  }
+}
+
+/* Seven day columns with the Backlog as a persistent sidebar. */
+@container week-board (min-width: 1100px) {
+  .week-board-grid {
+    grid-template-columns: minmax(0, 1fr) 17rem;
+  }
+
+  .week-days {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .day-card {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.92rem;
+  }
+
+  .day-card .control-row button {
+    width: 100%;
+    padding-inline: 0.4rem;
+  }
+}

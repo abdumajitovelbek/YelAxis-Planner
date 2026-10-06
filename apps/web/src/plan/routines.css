@@ -1,0 +1,138 @@
+/* Routines list and Routine detail. */
+
+.routines-page,
+.routine-detail {
+  width: min(960px, 100%);
+  min-width: 0;
+}
+
+.routines-page h1,
+.routine-detail h1 {
+  max-width: 24ch;
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  overflow-wrap: anywhere;
+}
+
+.routines-toolbar,
+.routine-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-block: 1rem;
+}
+
+.routine-group h2,
+.routine-section h2 {
+  margin-block: 2rem 0.75rem;
+  font-size: 1.35rem;
+}
+
+.routine-section h3 {
+  margin-block: 1.25rem 0.5rem;
+  font-size: 1.05rem;
+}
+
+.routine-list,
+.occurrence-list,
+.routine-generations {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.routine-card,
+.occurrence-row {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 24%, transparent);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  background: var(--bg-raised);
+}
+
+.routine-card p {
+  margin: 0.35rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.routine-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.routine-card-heading h3 {
+  margin: 0;
+  min-width: 0;
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.routine-card-heading a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.routine-facts {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.routine-facts > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.routine-facts dt {
+  color: var(--text-muted);
+  font-weight: 650;
+}
+
+.routine-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.routine-generations li,
+.occurrence-text {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.routine-generations span,
+.occurrence-text span {
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.occurrence-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.occurrence-text {
+  flex: 1 1 16rem;
+}
+
+.occurrence-controls-slot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .routine-facts > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}

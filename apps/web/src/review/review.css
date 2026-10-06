@@ -1,0 +1,467 @@
+/* Reviews . Tokens only, so both themes follow the app theme; no animation or transition. */
+
+.review-page {
+  display: grid;
+  width: min(880px, 100%);
+  min-width: 0;
+  gap: 1.75rem;
+}
+
+.review-header {
+  min-width: 0;
+}
+
+.review-header h1 {
+  max-width: none;
+  overflow-wrap: anywhere;
+}
+
+.review-header .eyebrow {
+  margin-block-end: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.review-header .back-link {
+  margin-block-end: 0.5rem;
+}
+
+.review-page-facts {
+  margin: 0.75rem 0 0;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.review-intro {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.review-page > .page-message,
+.review-page > p {
+  margin: 0;
+}
+
+.review-form {
+  display: grid;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+.review-form > .validation-summary {
+  margin: 0;
+}
+
+.review-section {
+  display: grid;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.review-section h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  overflow-wrap: anywhere;
+}
+
+.review-section h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.review-section > p,
+.review-section .field-help,
+.review-section .quiet-empty {
+  margin: 0;
+}
+
+.review-section a,
+.review-note-box a,
+.review-item-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  overflow-wrap: anywhere;
+}
+
+/* ───────── Current checkpoints ───────── */
+
+.review-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review-card {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 30%, transparent);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  background: var(--bg-raised);
+}
+
+.review-card h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.review-card p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.review-card-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.75rem;
+}
+
+.review-card .inline-button {
+  justify-self: start;
+  margin-block-start: 0.25rem;
+}
+
+/* The status is always text; the outline only repeats it. */
+.review-status {
+  display: inline-flex;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 999px;
+  padding: 0.1rem 0.65rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.review-status[data-status='completed'] {
+  border-color: var(--success);
+}
+
+.review-due {
+  color: var(--text-muted);
+}
+
+/* ───────── Lists ───────── */
+
+.review-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review-row {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  border-radius: 12px;
+  padding: 0.5rem 1rem 0.75rem;
+  background: var(--bg-raised);
+}
+
+.review-row a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.review-row-facts,
+.review-row-excerpt {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+.review-row-excerpt {
+  white-space: pre-wrap;
+}
+
+.review-plain-list,
+.review-ordered-list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.review-plain-list li,
+.review-ordered-list li {
+  overflow-wrap: anywhere;
+}
+
+.review-plain-title {
+  font-weight: 650;
+}
+
+.review-plain-list .review-quote {
+  display: block;
+}
+
+.review-facts {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+.review-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem 2rem;
+}
+
+.review-columns > div {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.review-quote {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ───────── Choices ───────── */
+
+.review-filter {
+  min-width: 0;
+  margin: 0;
+}
+
+.review-filter legend {
+  margin-block-end: 0.5rem;
+  font-size: 1rem;
+}
+
+.review-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.75rem;
+}
+
+.review-filter .review-choices {
+  margin-block-start: 0;
+}
+
+.review-choice {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  background: var(--bg);
+  cursor: pointer;
+}
+
+/* Checked is also the radio's own dot and a heavier weight, never color alone. */
+.review-choice:has(input:checked) {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  font-weight: 650;
+}
+
+.review-choice input {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.review-items {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review-item {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 30%, transparent);
+  border-radius: 14px;
+  padding: 1rem 1.1rem 0.5rem;
+  background: var(--bg-raised);
+}
+
+.review-fieldset {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.review-fieldset > legend {
+  margin: 0 0 0.3rem;
+  padding: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.review-section > .review-fieldset > legend {
+  font-size: 1rem;
+}
+
+/* ───────── Text fields ───────── */
+
+.review-field {
+  display: grid;
+  min-width: 0;
+  gap: 0.4rem;
+}
+
+.review-field label {
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.review-field .field-help {
+  margin: 0;
+}
+
+.review-field textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+}
+
+.review-field textarea[aria-invalid='true'] {
+  border-color: var(--warning);
+}
+
+.review-count.over {
+  color: var(--warning-text);
+  font-weight: 600;
+}
+
+.review-prompts {
+  color: var(--text-muted);
+}
+
+.review-prompts p {
+  margin: 0;
+}
+
+.review-prompts ul {
+  margin: 0.25rem 0 0;
+  padding-inline-start: 1.25rem;
+}
+
+/* ───────── Reminder ───────── */
+
+.review-reminder-form {
+  display: grid;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.review-reminder-form .field-help {
+  margin: 0;
+}
+
+.review-reminder-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-block: 0.75rem;
+}
+
+.review-reminder-field {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 0.35rem;
+}
+
+.review-reminder-field label {
+  font-weight: 650;
+}
+
+.review-reminder-field input {
+  width: min(14rem, 100%);
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.review-reminder-field input[aria-invalid='true'] {
+  border-color: var(--warning);
+}
+
+.review-reminder-error {
+  max-width: 14rem;
+  margin: 0;
+  color: var(--warning-text);
+  font-weight: 600;
+}
+
+.review-reminder > .validation-summary {
+  margin: 0;
+}
+
+/* ───────── Actions, notes, and results ───────── */
+
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.review-actions .inline-button {
+  margin-block-start: 0;
+}
+
+.review-note-box,
+.review-skipped {
+  display: grid;
+  gap: 0.25rem;
+  border-inline-start: 3px solid var(--accent);
+  padding: 0.5rem 0.85rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.review-note-box p,
+.review-skipped p {
+  margin: 0;
+}
+
+.review-result {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.review-summary {
+  margin: 0;
+  border-inline-start: 3px solid var(--success);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  font-weight: 700;
+}

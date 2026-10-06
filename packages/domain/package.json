@@ -1,0 +1,20 @@
+{
+  "name": "@yelaxis/domain",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@js-temporal/polyfill": "0.5.1"
+  },
+  "scripts": {
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc --project tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "license": "Apache-2.0"
+}

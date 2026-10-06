@@ -1,0 +1,353 @@
+/* Month, Year, Milestone chain, and availability settings. */
+
+.horizon-view {
+  min-width: 0;
+  max-width: 100%;
+  container-type: inline-size;
+}
+
+.horizon-view h1 {
+  margin-block: 0 1rem;
+  overflow-wrap: anywhere;
+}
+
+.horizon-section,
+.theme-editor {
+  min-width: 0;
+  margin-block: 1.75rem;
+}
+
+.horizon-section h2,
+.theme-editor h2 {
+  margin-block: 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.horizon-section h3 {
+  margin-block: 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.horizon-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+  gap: 0 2rem;
+}
+
+.horizon-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block: 1.5rem;
+}
+
+.horizon-error p {
+  margin: 0;
+}
+
+.horizon-list,
+.density-list,
+.month-cards,
+.chain-list,
+.window-rows,
+.window-lines {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.window-lines {
+  gap: 0.2rem;
+  margin-block: 0.5rem;
+}
+
+.horizon-item,
+.density-item,
+.month-card,
+.chain-step {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  background: var(--bg-raised);
+  overflow-wrap: anywhere;
+}
+
+.horizon-item p,
+.month-card p,
+.chain-step p {
+  margin: 0.2rem 0 0;
+}
+
+.horizon-item-title {
+  margin: 0;
+  font-weight: 650;
+}
+
+a.horizon-item-title {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.horizon-view .status-pill {
+  text-transform: none;
+}
+
+.chain-details dd a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.limit-editor input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.horizon-item a,
+.density-item a,
+.month-card a,
+.chain-step a {
+  color: var(--text);
+  text-decoration-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+.horizon-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.horizon-meta .status-pill {
+  padding: 0.15rem 0.6rem;
+  color: var(--text);
+}
+
+.horizon-meta a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.theme-text,
+.month-card-theme {
+  margin: 0.25rem 0 0.75rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.theme-text {
+  border-inline-start: 3px solid var(--violet);
+  padding-inline-start: 0.85rem;
+}
+
+.month-card-theme {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.theme-field-label {
+  display: block;
+  font-weight: 650;
+}
+
+.theme-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-block-start: 0.75rem;
+}
+
+/* Month density: neutral length relative to the busiest week; the text carries the meaning. */
+.density-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.density-heading a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  font-weight: 650;
+}
+
+.density-heading .status-pill {
+  padding: 0.15rem 0.6rem;
+}
+
+.density-track {
+  block-size: 0.5rem;
+  margin-block: 0.35rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-muted) 18%, transparent);
+  overflow: hidden;
+}
+
+.density-fill {
+  display: block;
+  block-size: 100%;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--accent) 65%, var(--text-muted));
+}
+
+.density-summary {
+  margin: 0;
+}
+
+/* Year */
+.year-layout {
+  margin-block: 0.5rem 1rem;
+}
+
+.year-layout legend,
+.limit-editor legend,
+.availability-editor legend {
+  font-size: 1rem;
+}
+
+.quarter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 1.25rem;
+}
+
+.quarter {
+  min-width: 0;
+}
+
+.quarter-range {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.month-cards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+
+.quarter .month-cards {
+  grid-template-columns: 1fr;
+}
+
+.date-item {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.date-item time {
+  font-weight: 650;
+}
+
+/* Milestone chain */
+.chain-list {
+  counter-reset: chain;
+}
+
+.chain-step {
+  position: relative;
+}
+
+.chain-step-current {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.chain-kind {
+  color: var(--accent-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chain-details {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  margin: 0.5rem 0 0;
+}
+
+.chain-details dt {
+  color: var(--text-muted);
+}
+
+.chain-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@container (max-width: 34rem) {
+  .chain-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chain-details dd {
+    margin-block-end: 0.35rem;
+  }
+}
+
+/* Availability and capacity */
+.capacity-summary {
+  font-weight: 650;
+}
+
+.capacity-page .horizon-list + .primary-button {
+  margin-block-start: 1rem;
+}
+
+.availability-item h3 {
+  margin: 0;
+}
+
+.window-row fieldset {
+  min-width: 0;
+}
+
+.window-row > fieldset {
+  border: 1px solid color-mix(in srgb, var(--text-muted) 25%, transparent);
+  border-radius: 12px;
+  padding: 0.5rem 1rem 1rem;
+}
+
+.window-row > fieldset > legend {
+  padding-inline: 0.35rem;
+}
+
+.sub-legend {
+  font-size: 0.95rem !important;
+  font-weight: 650;
+}
+
+.strength-options {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.limit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 0 2rem;
+}
+
+@container (max-width: 30rem) {
+  .horizon-view .two-column-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
