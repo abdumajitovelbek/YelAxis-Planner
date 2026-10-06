@@ -4,7 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { chromium } from 'playwright-core';
+import { chromium } from './lib/browser.mjs';
 import { isStaticCacheUrl } from './lib/cache-policy.mjs';
 
 const port = 5200 + (Date.now() % 400);

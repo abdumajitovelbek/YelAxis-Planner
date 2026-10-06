@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { chromium } from 'playwright-core';
+import { chromium } from './lib/browser.mjs';
 import { assert, assertNoOverflow } from './lib/journey.mjs';
 
 // Budgets are fixed before running. Their device ratification remains release.

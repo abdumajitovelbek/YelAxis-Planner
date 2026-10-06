@@ -4,7 +4,7 @@ import { mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { chromium, firefox } from 'playwright-core';
+import { chromium, firefox } from './lib/browser.mjs';
 
 import { assert, assertNoOverflow } from './lib/journey.mjs';
 

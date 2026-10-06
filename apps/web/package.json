@@ -41,7 +41,8 @@
     "test:release-performance": "node scripts/verify-release-performance.mjs",
     "test:release-performance-firefox": "node scripts/verify-release-performance.mjs --firefox",
     "test:release-security": "node scripts/verify-release-security.mjs",
-    "test:release-security-firefox": "node scripts/verify-release-security.mjs --firefox"
+    "test:release-security-firefox": "node scripts/verify-release-security.mjs --firefox",
+    "test:connectivity": "node scripts/verify-connectivity.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.117.2",

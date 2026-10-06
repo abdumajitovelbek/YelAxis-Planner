@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 
-import { chromium } from 'playwright-core';
+import { chromium } from './lib/browser.mjs';
 
 const port = 4800 + (Date.now() % 400);
 const origin = `http://127.0.0.1:${String(port)}`;

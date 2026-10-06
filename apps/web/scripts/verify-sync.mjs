@@ -18,7 +18,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { chromium, firefox } from 'playwright-core';
+import { chromium, firefox } from './lib/browser.mjs';
 
 import {
   accountIdOf,

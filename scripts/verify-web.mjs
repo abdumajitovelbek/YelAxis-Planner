@@ -5,6 +5,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const web = fileURLToPath(new URL('../apps/web/', import.meta.url));
 // Each local journey reads the same production artifact. Account journeys build their own public configuration.
 const localJourneys = [
+  ['connectivity', 'verify-connectivity'],
   ['persistence', 'verify-browser'],
   ['persistence-firefox', 'verify-firefox'],
   ['onboarding', 'verify-onboarding'],

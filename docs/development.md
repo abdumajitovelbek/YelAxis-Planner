@@ -59,6 +59,11 @@ Install the browser OS libraries required by your distribution if launch reports
 Managed Chromium/Firefox are the default. `CHROMIUM_EXECUTABLE_PATH` can select a compatible
 installed Chromium executable explicitly; record the version because results depend on it.
 
+The browser harness keeps its synthetic navigator connectivity signal consistent across PWA reloads
+while Playwright genuinely blocks network requests. A dedicated regression checks an uncached
+request, offline reload and online recovery. This emulation does not establish physical network,
+sleep or OS behavior.
+
 ```sh
 pnpm run test:backend
 pnpm run web:verify

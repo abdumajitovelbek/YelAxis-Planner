@@ -4,7 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { chromium, firefox } from 'playwright-core';
+import { chromium, firefox } from './lib/browser.mjs';
 
 /**
  * planning production-browser journey: Year/Month/Week/Day horizons, scheduling with an explicit

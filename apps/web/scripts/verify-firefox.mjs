@@ -3,7 +3,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { firefox } from 'playwright-core';
+import { firefox } from './lib/browser.mjs';
 
 const port = 4300 + (Date.now() % 500);
 const origin = `http://127.0.0.1:${String(port)}`;

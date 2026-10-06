@@ -4,7 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { chromium } from 'playwright-core';
+import { chromium } from './lib/browser.mjs';
 
 const port = 5600 + (Date.now() % 300);
 const origin = `http://127.0.0.1:${String(port)}`;

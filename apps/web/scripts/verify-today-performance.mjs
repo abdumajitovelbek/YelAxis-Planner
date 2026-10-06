@@ -4,7 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { chromium } from 'playwright-core';
+import { chromium } from './lib/browser.mjs';
 
 /*
  * Today Today performance gate (brief §6). manual planning runs test/today-performance.html on the dev
