@@ -68,9 +68,13 @@ jobs:
       - name: Apply migrations to the disposable database
         run: pnpm run supabase:reset
       - name: Verify browser journeys and backend isolation
-        run: pnpm run web:verify
+        run:
+          xvfb-run -a --server-args='-screen 0 2560x2160x24' env FIREFOX_HEADED=1 pnpm run
+          web:verify
       - name: Verify release behavior and performance bounds
-        run: pnpm run release:verify
+        run:
+          xvfb-run -a --server-args='-screen 0 2560x2160x24' env FIREFOX_HEADED=1 pnpm run
+          release:verify
       - name: Keep synthetic failure screenshots
         if: failure()
         uses: actions/upload-artifact@v4

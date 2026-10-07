@@ -169,8 +169,7 @@ async function runPhase(phase, verifyShell) {
         }
       });
       const complete = page.getByRole('button', { name: 'Skip and open Today' });
-      await complete.hover();
-      await complete.click({ delay: 100 });
+      await complete.click();
       const deliveredClick = await page.evaluate(() =>
         window.__onboardingPointerEvents.some(
           (event) =>
