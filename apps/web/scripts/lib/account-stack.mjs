@@ -1,6 +1,10 @@
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readLocalTestStack } from '../../../../scripts/lib/local-test-stack.mjs';
+import {
+  catalogQueryArguments,
+  parseCatalogRows,
+} from '../../../../packages/sync/src/testing/catalog-query.ts';
 
 /*
  * The selected local Supabase stack for account journeys: synthetic users
@@ -66,16 +70,17 @@ export async function buildWithAccount() {
 }
 
 /** Runs one read-only SQL statement on the local stack's database and returns its rows. */
-export function queryDatabase(sql) {
-  const { binary, workdir } = stackEnvironment();
-  const result = spawnSync(
-    binary,
-    ['db', 'query', '--local', '--workdir', workdir, '-o', 'json', sql],
-    { encoding: 'utf8', timeout: 120_000 },
-  );
+export function queryDatabase(
+  sql,
+  { execute = spawnSync, readEnvironment = stackEnvironment } = {},
+) {
+  const { binary, workdir } = readEnvironment();
+  const result = execute(binary, catalogQueryArguments(workdir, sql), {
+    encoding: 'utf8',
+    timeout: 120_000,
+  });
   if (result.status !== 0) throw new Error('A database query on the local stack failed.');
-  const output = result.stdout.slice(result.stdout.indexOf('{'));
-  return JSON.parse(output).rows ?? [];
+  return parseCatalogRows(result.stdout);
 }
 
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/u;

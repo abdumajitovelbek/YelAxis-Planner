@@ -11,6 +11,7 @@ on:
           - firefox
           - backend
           - connectivity
+          - account
 
 permissions:
   contents: read
