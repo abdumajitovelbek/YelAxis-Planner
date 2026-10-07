@@ -7,6 +7,8 @@ artifact_dir="${RUNNER_TEMP:?}/browser-artifacts"
 gate="${1:-full}"
 case "$gate" in full|firefox|backend|connectivity) ;; *) exit 2 ;; esac
 mkdir -p "$artifact_dir"
+# This volume replaces /tmp; preserve its normal writable, sticky-directory semantics for renderers.
+chmod 1777 "$artifact_dir"
 docker run --rm --ipc=host --network=host -e CI=true \
   -v "$PWD:$PWD" -w "$PWD" \
   -v "$artifact_dir:/tmp" \
