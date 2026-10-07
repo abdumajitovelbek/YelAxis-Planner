@@ -12,9 +12,10 @@ import {
   type AccountClientLoader,
 } from './supabase-backend';
 import { createWebAccountService, type WebAccountService } from './web-account-service';
+import { version } from '../../package.json';
 
 /** Informational version written into exported bundles. */
-export const bundleAppVersion = 'yelaxis-web-0.0.0';
+export const bundleAppVersion = `yelaxis-planner-${version}`;
 
 /** Browser persistence for identity stores: one worker, lock, and serialized queue per database. */
 export function browserStoreHost(): StoreHost {

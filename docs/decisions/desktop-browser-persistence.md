@@ -15,6 +15,12 @@ hashing and retirement of private settled buffers reduce those costs without wea
 acknowledgement or rollback. Legacy formats remain readable. Browser storage is best effort and
 unencrypted, so independent portable backups remain necessary.
 
+Production builds derive a validation-policy fingerprint from runtime sources, manifests, build
+helpers and the lockfile. Reuse needs a completed full health check of the identical image bytes
+with the same policy and SQLite engine. No optional Git setting or backend is needed. Development
+and HMR always perform full checks. Changed images, policies, unknown metadata or storage failures
+fall back to full validation; this cache is neither authentication nor encryption.
+
 The service worker caches static assets only, and updates require explicit activation. See
 [storage](../contracts/storage-and-migrations.md) and [operations](../release/operations.md) for
 compatibility and recovery rules.

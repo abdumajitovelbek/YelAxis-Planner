@@ -22,10 +22,11 @@ changes.
 
 ## Localization
 
-English is the shipped interface language, with ordinary UI rendered left to right. Dates, numbers
-and plural rules use device-aware native `Intl` formatting. The planning time zone, first weekday
-and time format are explicit planning preferences that can be confirmed without personal profile
-data. A stored display-locale field does not provide a complete translated interface.
+English is the shipped interface language, with ordinary UI rendered left to right. Dates and
+numbers use device-aware native `Intl` formatting; English messages use English plural categories.
+The planning time zone, first weekday and time format are explicit planning preferences that can be
+confirmed without personal profile data. A stored display-locale field does not provide a complete
+translated interface.
 
 `packages/i18n` owns message IDs and catalogs, placeholder validation, locale normalization,
 direction helpers and expanded left-to-right/right-to-left pseudo-locales. Pseudo-locales and

@@ -16,6 +16,10 @@ omit account configuration. Configured accounts require the exact public backend
 privileged keys or sessions must fail before output. `apps/web/dist` contains the static website,
 manifest, service worker and reviewed `_headers`, with no source maps.
 
+Keep the package versions accurate; exported bundle/client version metadata derives from the web
+manifest. Builds generate their health policy from actual runtime inputs even without Git metadata.
+An optional `VITE_YELAXIS_RELEASE_REVISION` labels support information and is not the health policy.
+
 ## Verify an operated instance
 
 Serve from the origin root with SPA fallback and correct MIME types. Confirm that the chosen host

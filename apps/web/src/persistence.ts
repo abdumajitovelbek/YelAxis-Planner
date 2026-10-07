@@ -26,9 +26,10 @@ export async function openPlanningDatabase(databaseName?: string): Promise<Plann
   );
   try {
     await runMigrations(driver, schemaMigrations, () => new Date().toISOString());
-    const revision: unknown = import.meta.env['VITE_YELAXIS_RELEASE_REVISION'];
+    const policy =
+      typeof __YELAXIS_HEALTH_POLICY__ === 'string' ? __YELAXIS_HEALTH_POLICY__ : undefined;
     const health = await checkDatabaseHealth(driver, {
-      cachePolicy: typeof revision === 'string' ? revision : undefined,
+      cachePolicy: policy,
     });
     if (health.integrityCheck !== 'ok' || health.foreignKeyViolations.length > 0) {
       throw new Error('The local planning database did not pass its integrity check.');

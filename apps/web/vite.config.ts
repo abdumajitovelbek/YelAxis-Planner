@@ -3,13 +3,14 @@ import { readFileSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { releaseHealthPolicy } from '../../scripts/lib/health-policy.mjs';
 import {
   cloudflareHeaders,
   readReleaseConfiguration,
   previewHeaders,
 } from './scripts/lib/release-config.mjs';
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = {
     ...loadEnv(mode, process.cwd(), 'VITE_'),
     ...Object.fromEntries(Object.entries(process.env).filter(([key]) => key.startsWith('VITE_'))),
@@ -19,6 +20,15 @@ export default defineConfig(({ mode }) => {
     env['VITE_YELAXIS_RELEASE_TARGET'] ?? 'local',
   );
   return {
+    // Development/HMR always checks fully. Production reuse is bound to the actual input tree.
+    define:
+      command === 'build'
+        ? {
+            __YELAXIS_HEALTH_POLICY__: JSON.stringify(
+              releaseHealthPolicy(fileURLToPath(new URL('../..', import.meta.url))),
+            ),
+          }
+        : {},
     resolve: {
       alias: [
         {
