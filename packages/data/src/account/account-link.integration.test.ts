@@ -58,6 +58,27 @@ async function linkWithBackup(fixture: AccountFixture) {
   return { backup: backup.value, receipt: linked.value };
 }
 
+/** Seed the same synthetic rows atomically so fixture setup does not pay one fsync per Action. */
+async function seedActions(fixture: AccountFixture, owner: OwnerId, count: number): Promise<void> {
+  await fixture.driver.transaction(async (transaction) => {
+    for (let index = 0; index < count; index += 1) {
+      await transaction.run(
+        `INSERT INTO actions (id, owner_id, title, state, capture_origin, sort_key, created_at,
+           updated_at)
+         VALUES (?, ?, ?, 'inbox', 'inbox', ?, ?, ?);`,
+        [
+          fixture.ids.next(),
+          owner,
+          `Synthetic ${String(index)}`,
+          `k${String(index)}`,
+          later,
+          later,
+        ],
+      );
+    }
+  });
+}
+
 /** The sync part's acknowledgments and first pull, as rows. */
 async function acknowledgeInitialUpload(fixture: AccountFixture, linkId: string) {
   await fixture.driver.run("UPDATE sync_outbox SET state = 'acknowledged' WHERE command_id = ?;", [
@@ -205,21 +226,7 @@ describe('linking a local plan to an account', () => {
   it('splits a large plan into groups of at most 500 operations', async () => {
     const fixture = await openAccountFixture();
     const owner = await fixture.ownerId();
-    for (let index = 0; index < 1_100; index += 1) {
-      await fixture.driver.run(
-        `INSERT INTO actions (id, owner_id, title, state, capture_origin, sort_key, created_at,
-           updated_at)
-         VALUES (?, ?, ?, 'inbox', 'inbox', ?, ?, ?);`,
-        [
-          fixture.ids.next(),
-          owner,
-          `Synthetic ${String(index)}`,
-          `k${String(index)}`,
-          later,
-          later,
-        ],
-      );
-    }
+    await seedActions(fixture, owner, 1_100);
     const { receipt } = await linkWithBackup(fixture);
     expect(receipt).toMatchObject({ groups: 3, operations: 1_101 });
     const sizes = await fixture.driver.all<{ size: number }>(
@@ -233,21 +240,7 @@ describe('linking a local plan to an account', () => {
   it('rolls the whole link back when any step fails', async () => {
     const fixture = await openAccountFixture();
     const owner = await fixture.ownerId();
-    for (let index = 0; index < 600; index += 1) {
-      await fixture.driver.run(
-        `INSERT INTO actions (id, owner_id, title, state, capture_origin, sort_key, created_at,
-           updated_at)
-         VALUES (?, ?, ?, 'inbox', 'inbox', ?, ?, ?);`,
-        [
-          fixture.ids.next(),
-          owner,
-          `Synthetic ${String(index)}`,
-          `k${String(index)}`,
-          later,
-          later,
-        ],
-      );
-    }
+    await seedActions(fixture, owner, 600);
     const backup = await fixture.account().createVerifiedBackup();
     if (!backup.ok) throw new Error(backup.error.code);
     const tables = async () => {
