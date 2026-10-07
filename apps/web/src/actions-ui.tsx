@@ -1047,6 +1047,18 @@ export function ActionDetailPage({
   readonly application: ActionApplication;
 }): ReactNode {
   const { actionId = '' } = useParams();
+  // Each route owns its loading state and draft. The previous Action must never remain editable
+  // under a new id while its query is pending, or late results can overwrite the new form.
+  return <ActionDetail key={actionId} actionId={actionId} application={application} />;
+}
+
+function ActionDetail({
+  actionId,
+  application,
+}: {
+  readonly actionId: string;
+  readonly application: ActionApplication;
+}): ReactNode {
   const navigate = useNavigate();
   const [workspace, setWorkspace] = useState<
     (ActionWorkspace & { readonly overdue: boolean }) | null | undefined

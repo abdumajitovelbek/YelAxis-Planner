@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/vitest';
 
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { Link, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import type {
@@ -558,6 +558,60 @@ function renderDetail(application: ActionApplication, alignment?: AlignmentAppli
     </PlanningProvider>,
   );
 }
+
+describe('Action detail route loading', () => {
+  it('removes the preceding editable Action while the next route is still loading', async () => {
+    const nextId = '20000000-0000-4000-8000-000000000002' as UUID;
+    const first = detailWorkspace({ title: 'First Action' });
+    const second = detailWorkspace({ title: 'Second Action', note: 'Second note' });
+    const next = {
+      ...second,
+      action: { ...second.action, ref: { ...second.action.ref, id: nextId }, localRevision: 3 },
+    };
+    let finish: (value: typeof next) => void = () => undefined;
+    const pending = new Promise<typeof next>((resolve) => {
+      finish = resolve;
+    });
+    const edit = vi.fn().mockResolvedValue({ ok: false, error: { code: 'store_failed' } });
+    const application = stubApplication({
+      getAction: (id) => (id === nextId ? pending : Promise.resolve(first)),
+      edit,
+    });
+    render(
+      <PlanningProvider planning={fakePlanning({})} actions={application}>
+        <MemoryRouter initialEntries={[`/actions/${intent.actionId}`]}>
+          <Link to={`/actions/${nextId}`}>Open second Action</Link>
+          <Routes>
+            <Route
+              path="/actions/:actionId"
+              element={<ActionDetailPage application={application} />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </PlanningProvider>,
+    );
+    const user = userEvent.setup();
+    await screen.findByRole('heading', { name: 'First Action' });
+    await user.click(screen.getByRole('link', { name: 'Open second Action' }));
+    expect(screen.queryByRole('textbox', { name: /^Title/u })).toBeNull();
+    expect(screen.getByRole('heading', { name: 'Opening Action…' })).toBeInTheDocument();
+    await act(async () => {
+      finish(next);
+      await pending;
+    });
+    const title = await screen.findByRole('textbox', { name: /^Title/u });
+    expect(title).toHaveValue('Second Action');
+    expect(screen.getByRole('textbox', { name: /^Note/u })).toHaveValue('Second note');
+    await user.clear(title);
+    await user.type(title, 'Changed second Action');
+    await user.click(screen.getByRole('button', { name: 'Save changes' }));
+    expect(edit).toHaveBeenCalledWith(
+      nextId,
+      3,
+      expect.objectContaining({ title: 'Changed second Action', note: 'Second note' }),
+    );
+  });
+});
 
 describe('crossAxisPending', () => {
   const noAxisProject = '82000000-0000-4000-8000-000000000002' as UUID;
