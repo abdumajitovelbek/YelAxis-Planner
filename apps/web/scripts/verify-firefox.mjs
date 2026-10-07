@@ -169,6 +169,7 @@ async function runPhase(phase, verifyShell) {
         }
       });
       const complete = page.getByRole('button', { name: 'Skip and open Today' });
+      await page.bringToFront();
       await complete.click();
       const deliveredClick = await page.evaluate(() =>
         window.__onboardingPointerEvents.some(
@@ -222,6 +223,18 @@ async function runPhase(phase, verifyShell) {
           screen: [screen.width, screen.height],
           window: [outerWidth, outerHeight],
           scroll: [scrollX, scrollY],
+          focused: document.hasFocus(),
+          visibility: document.visibilityState,
+          scale: devicePixelRatio,
+          hitAtButton: (() => {
+            const button = [...document.querySelectorAll('button')].find(
+              (node) => node.textContent === 'Skip and open Today',
+            );
+            if (!button) return null;
+            const rect = button.getBoundingClientRect();
+            return document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2)
+              ?.outerHTML;
+          })(),
         },
         pointerEvents: window.__onboardingPointerEvents,
         buttons: [...document.querySelectorAll('button')].map((node) => ({

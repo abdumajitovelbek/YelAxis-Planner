@@ -22,6 +22,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter web exec playwright-core install --with-deps firefox
       - name: Exercise Firefox persistence and the local website
+        env:
+          DEBUG: pw:api
         run:
           xvfb-run -a --server-args='-screen 0 2560x2160x24' env FIREFOX_HEADED=1 pnpm --filter web
           run test:firefox
