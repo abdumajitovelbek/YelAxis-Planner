@@ -20,13 +20,13 @@ jobs:
         with:
           node-version: 24.18.0
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter web exec playwright-core install --with-deps firefox
       - name: Exercise Firefox persistence and the local website
-        env:
-          DEBUG: pw:api,pw:protocol
-        run:
-          xvfb-run -a --server-args='-screen 0 2560x2160x24' env FIREFOX_HEADED=1 pnpm --filter web
-          run test:firefox
+        run: |
+          docker run --rm --ipc=host --network=host \
+            -v "$PWD:$PWD" -w "$PWD" \
+            -v "$(command -v node):/usr/local/bin/node:ro" \
+            mcr.microsoft.com/playwright:v1.62.0-noble \
+            bash -lc 'npm install -g pnpm@11.9.0 >/dev/null && pnpm --filter web run test:firefox'
       - name: Keep synthetic failure screenshots
         if: failure()
         uses: actions/upload-artifact@v4
