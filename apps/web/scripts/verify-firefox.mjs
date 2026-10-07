@@ -73,9 +73,10 @@ async function runPhase(phase, verifyShell) {
     headless: true,
     viewport: { width: 1440, height: 900 },
   });
+  const page = context.pages()[0] ?? (await context.newPage());
+  const browserMessages = [];
+  let step = 'open';
   try {
-    const page = context.pages()[0] ?? (await context.newPage());
-    const browserMessages = [];
     page.on('console', (message) =>
       browserMessages.push(`console:${message.type()}:${message.text()}`),
     );
@@ -130,13 +131,18 @@ async function runPhase(phase, verifyShell) {
         );
       }
       await page.getByRole('button', { name: 'Start locally' }).click();
+      step = 'confirm defaults';
       await page.getByRole('button', { name: 'Confirm defaults' }).click();
       await page.getByRole('button', { name: 'Skip for now' }).click();
       await page.getByRole('button', { name: 'Skip for now' }).click();
       await page.getByRole('button', { name: 'Skip for now' }).click();
       await page.getByLabel('First concrete Action').fill('Firefox onboarding Action');
+      step = 'save first Action';
       await page.getByRole('button', { name: 'Continue to handbook' }).click();
+      step = 'complete onboarding';
       await page.getByRole('button', { name: 'Skip and open Today' }).click();
+      await page.getByRole('heading', { name: 'A useful day starts here.' }).waitFor();
+      step = 'capture while online';
       await page.getByRole('button', { name: /Capture Alt C/u }).click();
       const capture = page.getByRole('dialog', { name: 'Add to Inbox' });
       await capture.getByLabel('Title').fill('Firefox offline Action');
@@ -164,6 +170,22 @@ async function runPhase(phase, verifyShell) {
     }
 
     return await openVerification(page, phase);
+  } catch (error) {
+    const screenshot = `/tmp/yelaxis-persistence-firefox-${phase}-failure.png`;
+    await page.screenshot({ path: screenshot, fullPage: true }).catch(() => undefined);
+    const state = await page
+      .evaluate(() => ({
+        heading: document.querySelector('h1')?.textContent,
+        alerts: [...document.querySelectorAll('[role=alert]')].map((node) => node.textContent),
+        visibleText: document.querySelector('main')?.textContent?.slice(0, 5000),
+        locale: navigator.language,
+        zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      }))
+      .catch(() => ({ closed: true }));
+    throw new Error(
+      `Firefox persistence failed at ${step}: ${JSON.stringify({ state, browserMessages, screenshot })}`,
+      { cause: error },
+    );
   } finally {
     await context.close();
   }

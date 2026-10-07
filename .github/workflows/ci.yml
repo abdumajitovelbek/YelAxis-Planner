@@ -71,6 +71,14 @@ jobs:
         run: pnpm run web:verify
       - name: Verify release behavior and performance bounds
         run: pnpm run release:verify
+      - name: Keep synthetic failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-failure-screenshots
+          path: /tmp/yelaxis-*-failure.png
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Stop this job's disposable stack
         if: always()
         run: pnpm run supabase:stop
