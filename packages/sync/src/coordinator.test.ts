@@ -164,6 +164,39 @@ function fakeCoordinator(options: { hold?: Gate } = {}) {
 }
 
 describe('coordinator triggers', () => {
+  it('uses bounded full pull pages by default and honors smaller explicit pages', async () => {
+    for (const [configured, expected] of [
+      [undefined, 500],
+      [50, 50],
+      [900, 500],
+    ] as const) {
+      const calls: string[] = [];
+      const limits: number[] = [];
+      const transport = countingTransport(calls);
+      const time = new ManualTime();
+      const coordinator = createSyncCoordinator({
+        application: fakeApplication(calls),
+        transport: {
+          ...transport,
+          pull: (request) => {
+            limits.push(request.limit);
+            return transport.pull(request);
+          },
+        },
+        now: () => time.now,
+        scheduler: time.scheduler,
+        network: { isOnline: () => true, subscribe: () => () => undefined },
+        visibility: { isVisible: () => true, subscribe: () => () => undefined },
+        ...(configured === undefined ? {} : { pullPageSize: configured }),
+      });
+      coordinator.start();
+      await coordinator.syncNow();
+      expect(limits.length).toBeGreaterThan(0);
+      expect(limits.every((limit) => limit === expected)).toBe(true);
+      expect(calls).toContain('apply');
+      await coordinator.stop();
+    }
+  });
   it('recovers stranded groups at launch, then pushes and pulls', async () => {
     const { calls, coordinator } = fakeCoordinator();
     coordinator.start();
