@@ -53,6 +53,7 @@ let serverOutput = '';
 let observedClient;
 let observedAccount;
 const rpcResponses = new Map();
+let observedMeasurements;
 
 function startServer(mode) {
   const command =
@@ -333,6 +334,7 @@ try {
     records: { cloudActions: cloud.byType.action, cloudLive: cloud.live, onA, onB },
     budgets,
   };
+  observedMeasurements = report;
   for (const [label, measured] of [
     ['upload', report.upload],
     ['pull', report.pull],
@@ -381,7 +383,7 @@ try {
     }
   }
   process.stderr.write(
-    `${JSON.stringify({ failureState: state, cloudCounts: cloud, rpcResponseCounts: Object.fromEntries(rpcResponses), screenshot })}\n`,
+    `${JSON.stringify({ failureState: state, cloudCounts: cloud, rpcResponseCounts: Object.fromEntries(rpcResponses), measurements: observedMeasurements, screenshot })}\n`,
   );
   process.stderr.write(
     `${redact(error instanceof Error ? (error.stack ?? error.message) : error)}\n`,
