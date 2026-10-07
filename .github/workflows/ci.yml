@@ -60,29 +60,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24.18.0
-      - run: pnpm install --frozen-lockfile
-      - name: Install pinned browsers and OS libraries
-        run: pnpm --filter web exec playwright-core install --with-deps chromium firefox
-      - name: Start independent disposable account stack without printing keys
-        run: pnpm run supabase:start
-      - name: Apply migrations to the disposable database
-        run: pnpm run supabase:reset
-      - name: Verify browser journeys and backend isolation
-        run:
-          xvfb-run -a --server-args='-screen 0 2560x2160x24' env FIREFOX_HEADED=1 pnpm run
-          web:verify
-      - name: Verify release behavior and performance bounds
-        run:
-          xvfb-run -a --server-args='-screen 0 2560x2160x24' env FIREFOX_HEADED=1 pnpm run
-          release:verify
+      - name: Verify browser, backend and release gates in the pinned browser image
+        run: bash .github/scripts/browser-gates.sh
       - name: Keep synthetic failure screenshots
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: browser-failure-screenshots
-          path: /tmp/yelaxis-*-failure.png
+          path: ${{ runner.temp }}/browser-artifacts/yelaxis-*-failure.png
           if-no-files-found: ignore
           retention-days: 7
-      - name: Stop this job's disposable stack
-        if: always()
-        run: pnpm run supabase:stop

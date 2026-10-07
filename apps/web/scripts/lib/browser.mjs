@@ -36,18 +36,12 @@ async function instrumentConnectivity(context) {
 }
 
 function instrumentBrowser(type) {
-  const launchOptions = (options) => ({
-    ...options,
-    ...(type === nativeFirefox ? firefoxDisplayOptions() : {}),
-  });
   return {
-    async launchPersistentContext(profile, options) {
-      return instrumentConnectivity(
-        await type.launchPersistentContext(profile, launchOptions(options)),
-      );
+    async launchPersistentContext(...args) {
+      return instrumentConnectivity(await type.launchPersistentContext(...args));
     },
-    async launch(options) {
-      const browser = await type.launch(launchOptions(options));
+    async launch(...args) {
+      const browser = await type.launch(...args);
       const newContext = browser.newContext.bind(browser);
       browser.newContext = async (...options) =>
         instrumentConnectivity(await newContext(...options));
@@ -58,11 +52,6 @@ function instrumentBrowser(type) {
 
 export const chromium = instrumentBrowser(nativeChromium);
 export const firefox = instrumentBrowser(nativeFirefox);
-
-/** A virtual desktop can exercise native input when a runner's headless backend drops events. */
-export function firefoxDisplayOptions(env = process.env) {
-  return env.FIREFOX_HEADED === '1' ? { headless: false } : {};
-}
 
 /** Use the pinned Playwright browser unless the contributor deliberately selects another binary. */
 export function chromiumExecutableOptions(env = process.env, { nativePermissions = false } = {}) {
