@@ -14,6 +14,10 @@ export const initialUploadLimits = Object.freeze({
   groupDocumentBytes: 1_536 * 1024,
 });
 
+// The protocol permits 500, but acknowledgments share the local writer with manual commands.
+// Smaller initial groups bound each background transaction's latency without changing any limit.
+const initialUploadBatchOperations = 250;
+
 /**
  * Dependency order of the initial upload: every record follows the records it names, so each group
  * and each operation can be checked against references that already exist on the server.
@@ -126,7 +130,7 @@ export function planInitialUpload(input: InitialUploadInput): OutboxMutationGrou
       continue;
     }
     if (
-      current.length === initialUploadLimits.operationsPerGroup ||
+      current.length === initialUploadBatchOperations ||
       currentBytes + bytes > initialUploadLimits.groupDocumentBytes
     ) {
       flush();

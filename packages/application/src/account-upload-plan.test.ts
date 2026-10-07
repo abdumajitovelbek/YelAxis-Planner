@@ -132,7 +132,10 @@ describe('initial upload plan', () => {
       now,
       ids: idSequence(),
     });
-    expect(groups.map(({ operations }) => operations.length)).toEqual([500, 500, 201]);
+    expect(groups.map(({ operations }) => operations.length)).toEqual([250, 250, 250, 250, 201]);
+    expect(
+      groups.every(({ operations }) => operations.length <= initialUploadLimits.operationsPerGroup),
+    ).toBe(true);
     const uploaded = groups.flatMap(({ operations }) => operations.map((o) => o.mutation.ref.id));
     expect(new Set(uploaded).size).toBe(1_201);
     expect(uploaded).toEqual([...uploaded].sort());
