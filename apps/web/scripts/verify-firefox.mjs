@@ -148,6 +148,26 @@ async function runPhase(phase, verifyShell) {
         () => document.activeElement === document.querySelector('#onboarding-title'),
       );
       step = 'complete onboarding';
+      await page.evaluate(() => {
+        window.__onboardingPointerEvents = [];
+        for (const type of ['pointerdown', 'pointerup', 'click']) {
+          document.addEventListener(
+            type,
+            (event) => {
+              window.__onboardingPointerEvents.push({
+                type,
+                target: event.target?.textContent?.slice(0, 120),
+                tag: event.target?.tagName,
+                disabled: event.target?.disabled,
+                x: event.clientX,
+                y: event.clientY,
+                trusted: event.isTrusted,
+              });
+            },
+            { capture: true },
+          );
+        }
+      });
       await page.getByRole('button', { name: 'Skip and open Today' }).click();
       await page.getByRole('heading', { name: 'A useful day starts here.' }).waitFor();
       step = 'capture while online';
@@ -188,6 +208,11 @@ async function runPhase(phase, verifyShell) {
         visibleText: document.querySelector('main')?.textContent?.slice(0, 5000),
         locale: navigator.language,
         zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        pointerEvents: window.__onboardingPointerEvents,
+        buttons: [...document.querySelectorAll('button')].map((node) => ({
+          text: node.textContent,
+          disabled: node.disabled,
+        })),
       }))
       .catch(() => ({ closed: true }));
     throw new Error(
