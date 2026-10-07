@@ -449,9 +449,9 @@ class SqliteSyncTransactionStore implements SyncTransactionStore {
 
   async dropOperations(ownerId: OwnerId, operationIds: readonly UUID[]): Promise<void> {
     this.guard.assertActive();
-    for (const operationId of operationIds) {
-      await this.connection.run(syncSql.removeOperation, [ownerId, operationId]);
-    }
+    if (operationIds.length === 0) return;
+    // One prepared, owner-scoped statement instead of a worker round trip per accepted operation.
+    await this.connection.run(syncSql.removeOperations, [ownerId, encodeJson(operationIds)]);
   }
 
   async acknowledgeOperations(ownerId: OwnerId, operationIds: readonly UUID[]): Promise<void> {

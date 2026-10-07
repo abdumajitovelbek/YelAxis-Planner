@@ -228,12 +228,12 @@ describe('linking a local plan to an account', () => {
     const owner = await fixture.ownerId();
     await seedActions(fixture, owner, 1_100);
     const { receipt } = await linkWithBackup(fixture);
-    expect(receipt).toMatchObject({ groups: 5, operations: 1_101 });
+    expect(receipt).toMatchObject({ groups: 3, operations: 1_101 });
     const sizes = await fixture.driver.all<{ size: number }>(
       `SELECT COUNT(*) AS size FROM sync_outbox GROUP BY mutation_group_id
        ORDER BY MIN(rowid);`,
     );
-    expect(sizes.map(({ size }) => size)).toEqual([250, 250, 250, 250, 101]);
+    expect(sizes.map(({ size }) => size)).toEqual([500, 500, 101]);
     await fixture.driver.close();
   });
 
@@ -277,7 +277,7 @@ describe('linking a local plan to an account', () => {
       fixture
         .account()
         .linkToAccount({ accountSubjectId: accountSubject, backupId: backup.value.bundleId }),
-    ).resolves.toMatchObject({ ok: true, value: { groups: 3, operations: 601 } });
+    ).resolves.toMatchObject({ ok: true, value: { groups: 2, operations: 601 } });
     await fixture.driver.close();
   });
 

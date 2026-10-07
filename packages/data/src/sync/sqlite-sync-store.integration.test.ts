@@ -278,6 +278,44 @@ describe('outbox', () => {
   });
 });
 
+describe('bulk outbox compaction', () => {
+  it('removes only requested operations of the owner and rolls back with the transaction', async () => {
+    const driver = await database();
+    await command(driver, [
+      create(ref('action', nextId()), action('One')),
+      create(ref('action', nextId()), action('Two')),
+    ]);
+    const rows = await inStore(driver, (sync) => sync.scanOutbox(owner, 0, 10));
+    const first = rows[0]!.operationId;
+    const second = rows[1]!.operationId;
+    const other = '10000000-0000-4000-8000-0000000000bb' as OwnerId;
+    await inStore(driver, (sync) => sync.acknowledgeOperations(other, [first], now));
+    expect(await inStore(driver, (sync) => sync.scanOutbox(owner, 0, 10))).toHaveLength(2);
+    await inStore(driver, (sync) =>
+      sync.acknowledgeOperations(owner, [first, first, nextId()], now),
+    );
+    expect(
+      (await inStore(driver, (sync) => sync.scanOutbox(owner, 0, 10))).map(
+        (row) => row.operationId,
+      ),
+    ).toEqual([second]);
+    await expect(
+      new SqliteSyncStore(driver).runInTransaction(async (tx) => {
+        await tx.sync.dropOperations(owner, [second], now);
+        throw new Error('Injected rollback');
+      }),
+    ).rejects.toThrow('Injected rollback');
+    expect(
+      (await inStore(driver, (sync) => sync.scanOutbox(owner, 0, 10))).map(
+        (row) => row.operationId,
+      ),
+    ).toEqual([second]);
+    await inStore(driver, (sync) => sync.acknowledgeOperations(owner, [second], now));
+    expect(await inStore(driver, (sync) => sync.scanOutbox(owner, 0, 10))).toEqual([]);
+    await driver.close();
+  });
+});
+
 describe('record sync metadata', () => {
   it('sets the server revision and base hash without touching the local revision', async () => {
     const driver = await database();

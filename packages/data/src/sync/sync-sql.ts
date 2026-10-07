@@ -73,6 +73,9 @@ export const syncSql = Object.freeze({
       AND sync_outbox.operation_kind <> 'create';`,
   removeOperation: `
     DELETE FROM sync_outbox WHERE owner_id = ? AND operation_id = ?;`,
+  removeOperations: `
+    DELETE FROM sync_outbox WHERE owner_id = ?
+      AND operation_id IN (SELECT value FROM json_each(?));`,
   setStateWhere: `
     UPDATE sync_outbox
     SET state = ?, next_attempt_at = ?,
