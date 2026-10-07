@@ -81,6 +81,15 @@ Linux. Firefox lacks the Chrome heap/LongTasks APIs, so unavailable metrics rema
 headless/CI environments need explicit browser dependencies and permitted sandbox settings. Do not
 treat unsupported profiling as a passed budget.
 
+GitHub's browser job uses the Playwright 1.62.0 Ubuntu image pinned by digest in
+[browser-gates.sh](../.github/scripts/browser-gates.sh), with the workflow's Node version and the
+frozen lockfile. The image includes the browsers' matching OS libraries; CI explicitly selects full
+managed Chromium and preserves normal `/tmp` permissions for subprocesses. It starts, migrates and
+stops only the job's disposable `yelaxis-planner` backend; keys stay in the stack loader's memory.
+Failure screenshots contain synthetic test data and expire after seven days. The manually dispatched
+**Firefox persistence diagnostic** workflow exercises only that focused journey and does not replace
+the full CI gates.
+
 A complete result records the exact tree/revision, command, exit status, browser/runtime, timing and
 safe artifact/report metadata. Use synthetic fixtures; do not attach private plans or environment
 output. Broaden tests when new failures or changes justify it. Manual reader, physical input/zoom,
