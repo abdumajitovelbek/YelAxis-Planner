@@ -23,7 +23,9 @@ try {
   ]) {
     const browser = await type.launch({
       headless: true,
-      ...(name === 'chromium' ? chromiumExecutableOptions() : {}),
+      ...(name === 'chromium'
+        ? { ...chromiumExecutableOptions(), args: ['--no-sandbox', '--disable-gpu'] }
+        : {}),
     });
     try {
       const context = await browser.newContext();

@@ -5,7 +5,7 @@ set -euo pipefail
 # Docker daemon, checkout and synthetic artifacts are available inside the verification image.
 artifact_dir="${RUNNER_TEMP:?}/browser-artifacts"
 gate="${1:-full}"
-case "$gate" in full|firefox|backend) ;; *) exit 2 ;; esac
+case "$gate" in full|firefox|backend|connectivity) ;; *) exit 2 ;; esac
 mkdir -p "$artifact_dir"
 docker run --rm --ipc=host --network=host -e CI=true \
   -v "$PWD:$PWD" -w "$PWD" \
@@ -21,6 +21,10 @@ docker run --rm --ipc=host --network=host -e CI=true \
     pnpm install --frozen-lockfile
     if [ "$1" = firefox ]; then
       pnpm --filter web run test:firefox
+      exit 0
+    fi
+    if [ "$1" = connectivity ]; then
+      pnpm --filter web run test:connectivity
       exit 0
     fi
     finish() {
