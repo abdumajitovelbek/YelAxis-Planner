@@ -50,6 +50,9 @@ const contexts = new Set();
 const accounts = [];
 let server;
 let serverOutput = '';
+let observedClient;
+let observedAccount;
+const rpcResponses = new Map();
 
 function startServer(mode) {
   const command =
@@ -116,6 +119,12 @@ async function launch(directory) {
     }
   });
   const page = context.pages()[0] ?? (await context.newPage());
+  page.on('response', (response) => {
+    const path = new URL(response.url()).pathname;
+    if (!path.startsWith('/rest/v1/rpc/')) return;
+    const key = `${path}:${String(response.status())}`;
+    rpcResponses.set(key, (rpcResponses.get(key) ?? 0) + 1);
+  });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   return { context, page, errors };
@@ -218,6 +227,7 @@ try {
 
   /* ───────────── A uploads 10,000 Actions ───────────── */
   A = await launch(directoryA);
+  observedClient = A;
   await A.page.goto(origin);
   await A.page.getByRole('heading', { name: 'A useful day starts here.' }).waitFor({
     timeout: 60_000,
@@ -231,6 +241,7 @@ try {
   const accountId = accountIdOf(email);
   assert(accountId !== null, 'The account must exist.');
   accounts.push(accountId);
+  observedAccount = accountId;
   const uploadStart = await A.page.evaluate(() => performance.now());
   const uploadStarted = performance.now();
   await A.page.getByRole('button', { name: 'Upload this plan' }).click();
@@ -252,6 +263,7 @@ try {
 
   /* ───────────── B pulls them ───────────── */
   const B = await launch(await profileDirectory('B'));
+  observedClient = B;
   await B.page.goto(origin);
   await B.page.getByRole('heading', { name: 'Connect direction to action.' }).waitFor();
   await B.page.getByRole('button', { name: 'Sign in' }).click();
@@ -344,6 +356,33 @@ try {
   await A.context.close();
   await B.context.close();
 } catch (error) {
+  const page = observedClient?.page;
+  const screenshot = '/tmp/yelaxis-sync-performance-failure.png';
+  if (page) await page.screenshot({ path: screenshot, fullPage: true }).catch(() => undefined);
+  const state = page
+    ? await page
+        .evaluate(() => ({
+          status: document.querySelector('.sync-status-line')?.getAttribute('data-state'),
+          statusText: document.querySelector('.sync-status-line')?.textContent,
+          progress: [...document.querySelectorAll('.account-progress progress')].map((node) => ({
+            value: node.value,
+            max: node.max,
+          })),
+          visible: document.visibilityState,
+        }))
+        .catch(() => ({ unavailable: true }))
+    : null;
+  let cloud = null;
+  if (observedAccount) {
+    try {
+      cloud = cloudRows(observedAccount);
+    } catch {
+      cloud = { unavailable: true };
+    }
+  }
+  process.stderr.write(
+    `${JSON.stringify({ failureState: state, cloudCounts: cloud, rpcResponseCounts: Object.fromEntries(rpcResponses), screenshot })}\n`,
+  );
   process.stderr.write(
     `${redact(error instanceof Error ? (error.stack ?? error.message) : error)}\n`,
   );

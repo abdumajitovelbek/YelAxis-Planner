@@ -12,6 +12,7 @@ on:
           - backend
           - connectivity
           - account
+          - sync-performance
 
 permissions:
   contents: read

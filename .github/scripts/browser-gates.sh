@@ -5,7 +5,7 @@ set -euo pipefail
 # Docker daemon, checkout and synthetic artifacts are available inside the verification image.
 artifact_dir="${RUNNER_TEMP:?}/browser-artifacts"
 gate="${1:-full}"
-case "$gate" in full|firefox|backend|connectivity|account) ;; *) exit 2 ;; esac
+case "$gate" in full|firefox|backend|connectivity|account|sync-performance) ;; *) exit 2 ;; esac
 mkdir -p "$artifact_dir"
 # This volume replaces /tmp; preserve its normal writable, sticky-directory semantics for renderers.
 chmod 1777 "$artifact_dir"
@@ -48,6 +48,8 @@ NODE
     node .github/scripts/check-backend-query.mjs
     if [ "$1" = backend ]; then
       pnpm run test:backend
+    elif [ "$1" = sync-performance ]; then
+      pnpm --filter web run test:sync-performance
     elif [ "$1" = account ]; then
       pnpm --filter web run test:sync
       pnpm --filter web run test:sync-firefox
