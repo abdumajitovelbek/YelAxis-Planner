@@ -139,6 +139,14 @@ async function runPhase(phase, verifyShell) {
       await page.getByLabel('First concrete Action').fill('Firefox onboarding Action');
       step = 'save first Action';
       await page.getByRole('button', { name: 'Continue to handbook' }).click();
+      // The step effect moves focus and may scroll. Let that transition settle before aiming
+      // the pointer at the completion button, especially on slower development-build runners.
+      await page
+        .getByRole('heading', { name: 'Learn the manual loop in a safe sandbox.' })
+        .waitFor();
+      await page.waitForFunction(
+        () => document.activeElement === document.querySelector('#onboarding-title'),
+      );
       step = 'complete onboarding';
       await page.getByRole('button', { name: 'Skip and open Today' }).click();
       await page.getByRole('heading', { name: 'A useful day starts here.' }).waitFor();
