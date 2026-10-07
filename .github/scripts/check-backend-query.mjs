@@ -5,7 +5,7 @@ const { binary, workdir } = selectLocalTestStack(process.cwd());
 const result = spawnSync(
   binary,
   ['db', 'query', '--local', '--workdir', workdir, '-o', 'json', 'SELECT 1 AS verification'],
-  { encoding: 'utf8' },
+  { encoding: 'utf8', timeout: 120_000 },
 );
 if (result.status !== 0) {
   // Report only predefined words, never raw CLI output, connection strings or credentials.
@@ -32,4 +32,15 @@ if (result.status !== 0) {
     `Local catalog query failed: ${JSON.stringify({ exit: result.status, categories })}`,
   );
 }
-console.log('Local catalog query succeeded.');
+const output = JSON.parse(result.stdout.slice(result.stdout.indexOf('{')));
+console.log(
+  JSON.stringify({
+    catalogProbe: 'succeeded',
+    fields: Object.keys(output),
+    rowsIsArray: Array.isArray(output.rows),
+    rowCount: Array.isArray(output.rows) ? output.rows.length : null,
+    firstRowFields:
+      output.rows?.[0] && typeof output.rows[0] === 'object' ? Object.keys(output.rows[0]) : null,
+    verifiesOne: output.rows?.[0]?.verification === 1,
+  }),
+);
