@@ -19,6 +19,13 @@ docker run --rm --ipc=host --network=host -e CI=true \
     git config --global --add safe.directory "$PWD"
     npm install -g pnpm@11.9.0 >/dev/null
     pnpm install --frozen-lockfile
+    export CHROMIUM_EXECUTABLE_PATH="$(
+      node --input-type=module <<"NODE"
+import { createRequire } from "node:module";
+const require = createRequire(`${process.cwd()}/apps/web/package.json`);
+process.stdout.write(require("playwright-core").chromium.executablePath());
+NODE
+    )"
     if [ "$1" = firefox ]; then
       pnpm --filter web run test:firefox
       exit 0
