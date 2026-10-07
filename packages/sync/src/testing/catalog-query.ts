@@ -18,18 +18,17 @@ export function catalogQueryArguments(workdir: string, sql: string): string[] {
 export function parseCatalogRows(output: string): Record<string, unknown>[] {
   try {
     const parsed: unknown = JSON.parse(output);
+    const rows = Array.isArray(parsed)
+      ? parsed
+      : parsed !== null && typeof parsed === 'object' && 'rows' in parsed
+        ? parsed.rows
+        : null;
     if (
-      parsed === null ||
-      typeof parsed !== 'object' ||
-      Array.isArray(parsed) ||
-      !('rows' in parsed) ||
-      !Array.isArray(parsed.rows) ||
-      parsed.rows.some(
-        (row: unknown) => row === null || typeof row !== 'object' || Array.isArray(row),
-      )
+      !Array.isArray(rows) ||
+      rows.some((row: unknown) => row === null || typeof row !== 'object' || Array.isArray(row))
     )
       throw new Error();
-    return parsed.rows as Record<string, unknown>[];
+    return rows as Record<string, unknown>[];
   } catch {
     // CLI output can contain connection details. Keep the error fixed and content-free.
     throw new Error('The local catalog query returned an unsupported result format.');
