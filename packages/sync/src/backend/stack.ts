@@ -4,6 +4,7 @@
  * logged, or written anywhere.
  */
 import { spawnSync } from 'node:child_process';
+import { catalogQueryArguments, parseCatalogRows } from '../testing/catalog-query';
 import { createHash, createHmac, randomBytes, randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import {
@@ -227,15 +228,12 @@ export async function waitForStack(timeoutMs = 90_000): Promise<void> {
  */
 export function queryDatabase<Row extends Record<string, unknown>>(sql: string): Row[] {
   const { binary, workdir } = stackEnvironment();
-  const result = spawnSync(
-    binary,
-    ['db', 'query', '--local', '--workdir', workdir, '-o', 'json', sql],
-    { encoding: 'utf8', timeout: 120_000 },
-  );
+  const result = spawnSync(binary, catalogQueryArguments(workdir, sql), {
+    encoding: 'utf8',
+    timeout: 120_000,
+  });
   if (result.status !== 0) throw new Error('A database query on the local stack failed.');
-  const output = result.stdout.slice(result.stdout.indexOf('{'));
-  const parsed = JSON.parse(output) as { readonly rows?: Row[] };
-  return parsed.rows ?? [];
+  return parseCatalogRows(result.stdout) as Row[];
 }
 
 /* ───────────────────────── Protocol helpers ───────────────────────── */

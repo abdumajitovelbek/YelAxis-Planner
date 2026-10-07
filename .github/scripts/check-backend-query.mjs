@@ -4,7 +4,18 @@ import { selectLocalTestStack } from '../../scripts/lib/local-test-stack.mjs';
 const { binary, workdir } = selectLocalTestStack(process.cwd());
 const result = spawnSync(
   binary,
-  ['db', 'query', '--local', '--workdir', workdir, '-o', 'json', 'SELECT 1 AS verification'],
+  [
+    'db',
+    'query',
+    '--local',
+    '--workdir',
+    workdir,
+    '--output-format',
+    'json',
+    '--agent',
+    'no',
+    'SELECT 1 AS verification',
+  ],
   { encoding: 'utf8', timeout: 120_000 },
 );
 if (result.status !== 0) {
@@ -44,3 +55,5 @@ console.log(
     verifiesOne: output.rows?.[0]?.verification === 1,
   }),
 );
+if (output.rows?.[0]?.verification !== 1)
+  throw new Error('Local catalog query format is incompatible.');
