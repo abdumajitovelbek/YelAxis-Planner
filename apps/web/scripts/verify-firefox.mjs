@@ -169,6 +169,14 @@ async function runPhase(phase, verifyShell) {
         }
       });
       await page.getByRole('button', { name: 'Skip and open Today' }).click();
+      const deliveredClick = await page.evaluate(() =>
+        window.__onboardingPointerEvents.some(
+          (event) =>
+            event.type === 'click' && event.target === 'Skip and open Today' && event.trusted,
+        ),
+      );
+      if (!deliveredClick)
+        throw new Error('Firefox did not deliver the trusted handbook pointer click.');
       await page.getByRole('heading', { name: 'A useful day starts here.' }).waitFor();
       step = 'capture while online';
       await page.getByRole('button', { name: /Capture Alt C/u }).click();
@@ -208,6 +216,12 @@ async function runPhase(phase, verifyShell) {
         visibleText: document.querySelector('main')?.textContent?.slice(0, 5000),
         locale: navigator.language,
         zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        geometry: {
+          viewport: [innerWidth, innerHeight],
+          screen: [screen.width, screen.height],
+          window: [outerWidth, outerHeight],
+          scroll: [scrollX, scrollY],
+        },
         pointerEvents: window.__onboardingPointerEvents,
         buttons: [...document.querySelectorAll('button')].map((node) => ({
           text: node.textContent,
