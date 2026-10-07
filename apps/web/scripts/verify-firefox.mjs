@@ -150,7 +150,7 @@ async function runPhase(phase, verifyShell) {
       step = 'complete onboarding';
       await page.evaluate(() => {
         window.__onboardingPointerEvents = [];
-        for (const type of ['pointerdown', 'pointerup', 'click']) {
+        for (const type of ['pointermove', 'pointerdown', 'pointerup', 'click']) {
           document.addEventListener(
             type,
             (event) => {
@@ -168,7 +168,9 @@ async function runPhase(phase, verifyShell) {
           );
         }
       });
-      await page.getByRole('button', { name: 'Skip and open Today' }).click();
+      const complete = page.getByRole('button', { name: 'Skip and open Today' });
+      await complete.hover();
+      await complete.click({ delay: 100 });
       const deliveredClick = await page.evaluate(() =>
         window.__onboardingPointerEvents.some(
           (event) =>
@@ -226,6 +228,8 @@ async function runPhase(phase, verifyShell) {
         buttons: [...document.querySelectorAll('button')].map((node) => ({
           text: node.textContent,
           disabled: node.disabled,
+          bounds: node.getBoundingClientRect().toJSON(),
+          hovered: node.matches(':hover'),
         })),
       }))
       .catch(() => ({ closed: true }));
