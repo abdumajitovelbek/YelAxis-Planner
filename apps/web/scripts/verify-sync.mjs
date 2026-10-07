@@ -805,7 +805,7 @@ try {
         );
         assert(unexpected.length === 0, `Browser errors:\n${unexpected.join('\n')}`);
         return {
-          backend: `${apiUrl} (local yelaxis stack)`,
+          backend: `${apiUrl} (selected local test stack)`,
           externalRequests: clients.reduce((sum, client) => sum + client.external.length, 0),
         };
       } catch (error) {

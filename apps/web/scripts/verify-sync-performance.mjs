@@ -314,7 +314,7 @@ try {
   );
 
   const report = {
-    backend: 'local yelaxis stack',
+    backend: 'selected local test stack',
     seeded: JSON.parse(seeded ?? '{}'),
     upload: { uploadMs, ...duringUpload, longTasks: uploadTasks, usedJSHeapSize: uploadHeap },
     pull: { frameMs, pullMs, ...duringPull, longTasks: pullTasks, usedJSHeapSize: pullHeap },
