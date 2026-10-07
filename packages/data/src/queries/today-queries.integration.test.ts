@@ -27,7 +27,7 @@ import {
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { createSqliteApplicationAdapters } from '../application/sqlite-adapters';
-import type { SqliteParameter } from '../sqlite/driver';
+import type { SqliteParameter, SqliteQueryConnection } from '../sqlite/driver';
 import { schemaMigrations } from '../sqlite/migrations';
 import { runMigrations } from '../sqlite/migrations/migration';
 import { NodeSqliteDriver } from '../sqlite/testing/node-driver.node';
@@ -75,10 +75,14 @@ async function fixture() {
   temporaryDirectories.push(directory);
   const driver = new NodeSqliteDriver(join(directory, 'plan.sqlite'));
   await runMigrations(driver, schemaMigrations, () => now);
-  const insert = async (table: string, row: Row) => {
+  const insert = async (
+    table: string,
+    row: Row,
+    connection: Pick<SqliteQueryConnection, 'run'> = driver,
+  ) => {
     const values = { created_at: now, updated_at: now, ...row };
     const columns = Object.keys(values);
-    await driver.run(
+    await connection.run(
       `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${columns.map(() => '?').join(', ')});`,
       Object.values(values),
     );
@@ -1286,22 +1290,28 @@ function largeSeedStatements(): string[] {
 describe('SqliteTodayQueries at scale', () => {
   it('retains every same-day block and placement beyond the former 1,000-row boundary', async () => {
     const { driver, insert, today, planning } = await fixture();
-    for (let index = 1; index <= 1_003; index += 1) {
-      await insert('actions', action(index, 'planned'));
-      await insert('planning_placements', dayPlacement(index, index, day));
+    // Seed query-completeness fixtures atomically to avoid per-row disk fsync overhead on CI.
+    // Every cardinality/ownership assertion and the original timeout remain in place.
+    await driver.transaction(async (transaction) => {
+      for (let index = 1; index <= 1_003; index += 1) {
+        await insert('actions', action(index, 'planned'), transaction);
+        await insert('planning_placements', dayPlacement(index, index, day), transaction);
+        await insert(
+          'time_blocks',
+          block(index, '2026-09-28T12:00:00.000Z', '2026-09-28T13:00:00.000Z', {
+            custom_title: `Synthetic block ${String(index)}`,
+          }),
+          transaction,
+        );
+      }
       await insert(
         'time_blocks',
-        block(index, '2026-09-28T12:00:00.000Z', '2026-09-28T13:00:00.000Z', {
-          custom_title: `Synthetic block ${String(index)}`,
+        block(1_004, '2026-09-10T12:00:00.000Z', '2026-09-29T13:00:00.000Z', {
+          custom_title: 'Synthetic imported long interval',
         }),
+        transaction,
       );
-    }
-    await insert(
-      'time_blocks',
-      block(1_004, '2026-09-10T12:00:00.000Z', '2026-09-29T13:00:00.000Z', {
-        custom_title: 'Synthetic imported long interval',
-      }),
-    );
+    });
     const bounds = localDayBounds(day, zone);
     const placements = await today.listDayActionPlacements(owner, day);
     const blocks = await today.listDayBlocks(owner, bounds);

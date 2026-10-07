@@ -59,6 +59,14 @@ sample. Firefox's heap/LongTasks metrics are unavailable, not passes.
   from actual runtime/build inputs; development still checks fully. The final warm measurement is
   1,937.7 ms. Integrity, foreign-key, byte/engine/policy checks and fixture sizes are retained.
 
+The initial GitHub Actions quality run timed out while seeding over 3,000 rows as individual
+autocommits in the Today query-completeness fixture. The setup now inserts the identical rows
+through one transaction; all 1,003-placement/1,004-block, ownership and query assertions and the
+original timeout remain unchanged. Its focused 14-test file and TypeScript check pass locally. The
+new hosted run's result is tracked in
+[GitHub Actions](https://github.com/abdumajitovelbek/YelAxis-Planner/actions); it is separate from
+the completed local gate evidence above.
+
 ## What the automated suites cover
 
 The repository has domain, application, SQLite/worker, UI, scanner and real-backend tests. Browser
