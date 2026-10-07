@@ -32,6 +32,7 @@ docker run --rm --ipc=host --network=host -e CI=true \
     trap finish EXIT
     pnpm run supabase:start
     pnpm run supabase:reset
+    node .github/scripts/check-backend-query.mjs
     if [ "$1" = backend ]; then
       pnpm run test:backend
     else
