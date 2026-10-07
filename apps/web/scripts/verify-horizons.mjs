@@ -596,7 +596,6 @@ async function verifyMonthAndYear(page) {
   const weekLink = page.getByRole('list', { name: 'Weeks in this month' }).getByRole('link').last();
   await weekLink.scrollIntoViewIfNeeded();
   await page.evaluate(() => window.scrollBy(0, 120));
-  const scrolled = await page.evaluate(() => Math.round(window.scrollY));
   const scrollEntry = await page.evaluate(() => ({
     key: window.history.state?.key ?? 'default',
     stored: sessionStorage.getItem(`yelaxis:plan:scroll:${window.history.state?.key ?? 'default'}`),
@@ -615,6 +614,10 @@ async function verifyMonthAndYear(page) {
   await weekLink.click();
   await page.waitForURL(/\/plan\/week\//u);
   await page.getByRole('heading', { level: 2, name: 'Backlog' }).waitFor();
+  // Native pointer activation can scroll the target again. Back must restore the position
+  // at navigation, rather than the earlier position before Playwright activates the link.
+  const scrolled = await page.evaluate(() => window.__horizonPointerScroll);
+  assert(Number.isFinite(scrolled), 'The week drill-in must deliver its native pointer event.');
   process.stderr.write(
     `scroll diagnostic: ${JSON.stringify({ before: scrollEntry, after: await page.evaluate((key) => ({ pointerY: window.__horizonPointerScroll, stored: sessionStorage.getItem(`yelaxis:plan:scroll:${key}`), scrollY: Math.round(window.scrollY) }), scrollEntry.key) })}\n`,
   );

@@ -5,7 +5,7 @@ set -euo pipefail
 # Docker daemon, checkout and synthetic artifacts are available inside the verification image.
 artifact_dir="${RUNNER_TEMP:?}/browser-artifacts"
 gate="${1:-full}"
-case "$gate" in full|firefox|backend|connectivity|account|sync-performance) ;; *) exit 2 ;; esac
+case "$gate" in full|firefox|backend|connectivity|account|sync-performance|horizons-firefox) ;; *) exit 2 ;; esac
 mkdir -p "$artifact_dir"
 # This volume replaces /tmp; preserve its normal writable, sticky-directory semantics for renderers.
 chmod 1777 "$artifact_dir"
@@ -34,6 +34,10 @@ NODE
     fi
     if [ "$1" = connectivity ]; then
       pnpm --filter web run test:connectivity
+      exit 0
+    fi
+    if [ "$1" = horizons-firefox ]; then
+      pnpm --filter web run test:horizons-firefox
       exit 0
     fi
     finish() {
