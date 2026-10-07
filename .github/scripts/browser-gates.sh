@@ -33,7 +33,7 @@ NODE
       exit 0
     fi
     if [ "$1" = connectivity ]; then
-      DEBUG=pw:browser pnpm --filter web run test:connectivity
+      pnpm --filter web run test:connectivity
       exit 0
     fi
     finish() {
