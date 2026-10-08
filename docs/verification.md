@@ -30,20 +30,25 @@ The final full CI used 10,000 seeded Actions plus a capture on each client. Both
 converged to **10,003 live records**, matching the cloud; nothing remained in the outbox. The
 [earlier focused diagnostic](release/sync-performance-ci.json) also passed the same limits.
 
-| Metric | Upload | Pull | Unchanged limit | | --- | --- | --- | | Transfer completion | 48,757 ms |
-25,254 ms | 120,000 / 90,000 ms | | Capture open | 16 ms | 14 ms | 500 ms | | Capture save | 814 ms
-| 823 ms | 1,000 ms | | Inbox open | 92 ms | 196 ms | 1,500 ms | | Main-thread longest task | 133 ms
-| 0 ms | 250 ms |
+| Metric                   | Upload    | Pull      | Unchanged limit     |
+| ------------------------ | --------- | --------- | ------------------- |
+| Transfer completion      | 48,757 ms | 25,254 ms | 120,000 / 90,000 ms |
+| Capture open             | 16 ms     | 14 ms     | 500 ms              |
+| Capture save             | 814 ms    | 823 ms    | 1,000 ms            |
+| Inbox open               | 92 ms     | 196 ms    | 1,500 ms            |
+| Main-thread longest task | 133 ms    | 0 ms      | 250 ms              |
 
 The [failure investigation](release/ci-investigation.md) records the earlier parser, runner,
 fixture, Firefox navigation and Action-loading defects. It also preserves failed performance
 diagnostics and the measured snapshot-compression bottleneck; neither failed runs nor the rejected
 250-operation experiment is described as passing.
 
-`v0.1.0-beta.1` remains fixed at `69f76baf7a7613e623fa5c751ac075ad4ed33823`. Beta 2 contains the
-runtime fixes. Any following delivery commit changes documentation/evidence only; runtime, tests,
-dependency graph and workflow configuration remain exactly those covered by the completed CI. This
-is a beta source release, not stable-release readiness or a verified hosted service.
+`v0.1.0-beta.1` remains fixed at `69f76baf7a7613e623fa5c751ac075ad4ed33823`. Beta 2 is tagged at
+`b14d653559067fbce0d465b2ced81d6dd226c745`, which adds documentation/evidence only to the verified
+runtime revision. Runtime, tests, dependency graph and workflow configuration match the completed
+CI. The [final planned review](release/beta-2-final-review.md) records subsequent documentation
+corrections. This is a beta source release, not stable-release readiness or a verified hosted
+service.
 
 ### Final release performance
 
