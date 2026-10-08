@@ -1,40 +1,36 @@
 {
-  "recordVersion": 1,
-  "observedUtc": "2026-10-07T15:44:24.039707+00:00",
-  "sourceCommit": "83f58504f43967b01ce64ac331b31c34d130c7d4",
-  "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37643421585",
-  "status": "in_progress",
-  "conclusion": null,
+  "recordVersion": 2,
+  "sourceCommit": "1a6142b3fdb6bceaa142193b3ac9a39e37e8fe7c",
+  "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37791860197",
+  "status": "completed",
+  "conclusion": "success",
+  "finishedUtc": "2026-10-08T14:50:04Z",
   "jobs": [
     {
       "name": "Workspace quality checks",
-      "status": "completed",
-      "conclusion": "success"
+      "conclusion": "success",
+      "startedUtc": "2026-10-08T14:22:06Z",
+      "finishedUtc": "2026-10-08T14:25:13Z"
     },
     {
       "name": "Browser, backend and release verification",
-      "status": "in_progress",
-      "conclusion": null
+      "conclusion": "success",
+      "startedUtc": "2026-10-08T14:25:17Z",
+      "finishedUtc": "2026-10-08T14:50:04Z"
     }
   ],
-  "providerIncident": "https://www.githubstatus.com/incidents/djlmxz2zd0j7",
-  "cloudBrowserReleaseVerified": false,
-  "completedFocusedRuns": [
-    {
-      "gate": "Firefox persistence and native pointer input",
-      "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37627446971",
-      "conclusion": "success"
-    },
-    {
-      "gate": "Backend, 6 files / 61 tests",
-      "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37639560337",
-      "conclusion": "success"
-    },
-    {
-      "gate": "Chromium/Firefox connectivity with real network blocking and recovery",
-      "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37642924504",
-      "conclusion": "success"
-    }
-  ],
-  "completedLocalEvidence": "publication-verification.json"
+  "cloudBrowserReleaseVerified": true,
+  "evidence": "ci-verification-results.json",
+  "historicalDelivery": {
+    "sourceCommit": "83f58504f43967b01ce64ac331b31c34d130c7d4",
+    "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37643421585",
+    "status": "completed",
+    "conclusion": "failure",
+    "failure": "Browser account helper CLI JSON parsing; corrected by f5824ab. Not attributed to a service incident."
+  },
+  "focusedPerformance": {
+    "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37791163153",
+    "conclusion": "success",
+    "evidence": "sync-performance-ci.json"
+  }
 }

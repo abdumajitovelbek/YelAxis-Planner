@@ -1,0 +1,501 @@
+{
+  "recordVersion": 1,
+  "failedBulkCompactionDiagnostic": {
+    "recordVersion": 1,
+    "sourceCommit": "8dcac49f7224ba96af4678a1120e928d6537dec9",
+    "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37783703358",
+    "conclusion": "failure",
+    "createdUtc": "2026-10-08T13:21:27Z",
+    "finishedUtc": "2026-10-08T13:25:53Z",
+    "reports": [
+      {
+        "failureState": {
+          "status": "first_upload",
+          "statusText": "Uploading this plan: 10002 of 10002 \u00b7 Account",
+          "progress": [],
+          "visible": "visible"
+        },
+        "cloudCounts": {
+          "changes": 10002,
+          "conflicts": 0,
+          "live": 10002,
+          "replicas": 1,
+          "tombstones": 0,
+          "users": 1,
+          "byType": {
+            "action": 10001,
+            "profile": 1
+          }
+        },
+        "rpcResponseCounts": {
+          "/rest/v1/rpc/account_status:200": 1,
+          "/rest/v1/rpc/sync_push:200": 22,
+          "/rest/v1/rpc/sync_open_conflicts:200": 1,
+          "/rest/v1/rpc/sync_pull:200": 17
+        },
+        "screenshot": "<local artifact>"
+      }
+    ]
+  },
+  "localWorkerProfile": {
+    "sourceCommit": "8dcac49f7224ba96af4678a1120e928d6537dec9",
+    "workingChanges": "Test harness aggregate worker timing only; runtime unchanged.",
+    "environment": {
+      "platform": "Linux x86_64",
+      "node": "24.20.0",
+      "pnpm": "11.9.0",
+      "browser": "Full managed Chromium through Playwright 1.62.0",
+      "backend": "Disposable yelaxis-planner stack; synthetic data only"
+    },
+    "exitCode": 0,
+    "report": {
+      "backend": "selected local test stack",
+      "seeded": {
+        "size": 10000,
+        "seedMs": 629
+      },
+      "upload": {
+        "uploadMs": 65339,
+        "captureOpenMs": 23,
+        "captureSaveMs": 831,
+        "inboxOpenMs": 78,
+        "longTasks": {
+          "count": 1,
+          "longestMs": 113,
+          "totalMs": 113
+        },
+        "usedJSHeapSize": 15705927,
+        "workerRoundTrips": {
+          "executeScript": {
+            "count": 126,
+            "totalMs": 19807.200000000536,
+            "longestMs": 167.40000000002328
+          },
+          "run": {
+            "count": 30317,
+            "totalMs": 8708.09999999986,
+            "longestMs": 622.7999999999302
+          },
+          "all": {
+            "count": 477,
+            "totalMs": 541.9000000000233,
+            "longestMs": 43.699999999953434
+          },
+          "actionRead": {
+            "count": 40052,
+            "totalMs": 2314.400000001886,
+            "longestMs": 3
+          },
+          "get": {
+            "count": 1405,
+            "totalMs": 289.7000000006519,
+            "longestMs": 11.699999999953434
+          },
+          "commit": {
+            "count": 126,
+            "totalMs": 21450.899999999092,
+            "longestMs": 211.59999999997672
+          }
+        }
+      },
+      "pull": {
+        "frameMs": 3328,
+        "pullMs": 27129,
+        "captureOpenMs": 12,
+        "captureSaveMs": 825,
+        "inboxOpenMs": 69,
+        "longTasks": {
+          "count": 0,
+          "longestMs": 0,
+          "totalMs": 0
+        },
+        "usedJSHeapSize": 19225405,
+        "workerRoundTrips": {
+          "init": {
+            "count": 2,
+            "totalMs": 60.79999999993015,
+            "longestMs": 41.59999999997672
+          },
+          "executeScript": {
+            "count": 191,
+            "totalMs": 6275.900000000722,
+            "longestMs": 174.40000000002328
+          },
+          "get": {
+            "count": 20218,
+            "totalMs": 790.4000000028173,
+            "longestMs": 4.300000000046566
+          },
+          "all": {
+            "count": 589,
+            "totalMs": 312.59999999869615,
+            "longestMs": 40
+          },
+          "run": {
+            "count": 40157,
+            "totalMs": 12105.799999999814,
+            "longestMs": 13.400000000023283
+          },
+          "commit": {
+            "count": 111,
+            "totalMs": 7007.59999999986,
+            "longestMs": 210.09999999997672
+          },
+          "checkedHealth": {
+            "count": 2,
+            "totalMs": 25.400000000023283,
+            "longestMs": 13.70000000006985
+          },
+          "actionRead": {
+            "count": 10025,
+            "totalMs": 549.2999999998137,
+            "longestMs": 3
+          },
+          "close": {
+            "count": 1,
+            "totalMs": 2.300000000046566,
+            "longestMs": 2.300000000046566
+          }
+        }
+      },
+      "records": {
+        "cloudActions": 10002,
+        "cloudLive": 10003,
+        "onA": 10003,
+        "onB": 10003
+      },
+      "budgets": {
+        "uploadMs": 120000,
+        "pullMs": 90000,
+        "captureOpenWorstMs": 500,
+        "captureSaveWorstMs": 1000,
+        "inboxOpenWorstMs": 1500,
+        "longestTaskMs": 250
+      }
+    }
+  },
+  "finding": "Repeated gzip encoding at transaction begin and commit dominated local worker cost. An image-digest cache reuses only unchanged compressed bytes; durable writes and private rollback images remain.",
+  "failedFullRun": {
+    "sourceCommit": "dad78186755e026a489f7b8f4bdf9cf18ff48aaf",
+    "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37786565720",
+    "conclusion": "failure",
+    "repositoryCounts": {
+      "workspaceFiles": 214,
+      "workspaceTests": 3087,
+      "scannerTests": 36
+    },
+    "backend": {
+      "files": 6,
+      "tests": 61
+    },
+    "browserStages": [
+      {
+        "stage": "local-build",
+        "passed": true
+      },
+      {
+        "stage": "connectivity",
+        "passed": true
+      },
+      {
+        "stage": "persistence",
+        "passed": true
+      },
+      {
+        "stage": "persistence-firefox",
+        "passed": true
+      },
+      {
+        "stage": "onboarding",
+        "passed": true
+      },
+      {
+        "stage": "actions",
+        "passed": true
+      },
+      {
+        "stage": "actions-performance",
+        "passed": true
+      },
+      {
+        "stage": "horizons",
+        "passed": true
+      },
+      {
+        "stage": "horizons-firefox",
+        "passed": true
+      },
+      {
+        "stage": "horizons-performance",
+        "passed": true
+      },
+      {
+        "stage": "pwa",
+        "passed": true
+      },
+      {
+        "stage": "alignment",
+        "passed": true
+      },
+      {
+        "stage": "alignment-firefox",
+        "passed": true
+      },
+      {
+        "stage": "today",
+        "passed": true
+      },
+      {
+        "stage": "today-firefox",
+        "passed": true
+      },
+      {
+        "stage": "today-performance",
+        "passed": true
+      },
+      {
+        "stage": "reviews",
+        "passed": true
+      },
+      {
+        "stage": "reviews-firefox",
+        "passed": true
+      },
+      {
+        "stage": "search",
+        "passed": true
+      },
+      {
+        "stage": "search-firefox",
+        "passed": true
+      },
+      {
+        "stage": "search-performance",
+        "passed": true
+      },
+      {
+        "stage": "notifications",
+        "passed": true
+      },
+      {
+        "stage": "notifications-firefox",
+        "passed": true
+      },
+      {
+        "stage": "backend",
+        "passed": true
+      },
+      {
+        "stage": "sync",
+        "passed": true
+      },
+      {
+        "stage": "sync-firefox",
+        "passed": true
+      },
+      {
+        "stage": "sync-performance",
+        "passed": false
+      }
+    ],
+    "performanceFailure": {
+      "failureState": {
+        "status": "synced",
+        "statusText": "Synced \u00b7 Account",
+        "progress": [],
+        "visible": "visible",
+        "workerRoundTrips": {
+          "init": {
+            "count": 2,
+            "totalMs": 140.0999999998603,
+            "longestMs": 117
+          },
+          "executeScript": {
+            "count": 191,
+            "totalMs": 1574.2999999998137,
+            "longestMs": 126.69999999995343
+          },
+          "get": {
+            "count": 20249,
+            "totalMs": 1654.2999999956228,
+            "longestMs": 6.2999999998137355
+          },
+          "all": {
+            "count": 601,
+            "totalMs": 453.40000000060536,
+            "longestMs": 44.800000000046566
+          },
+          "run": {
+            "count": 40157,
+            "totalMs": 18011.900000021793,
+            "longestMs": 20.100000000093132
+          },
+          "commit": {
+            "count": 111,
+            "totalMs": 7940.700000000885,
+            "longestMs": 479.39999999990687
+          },
+          "checkedHealth": {
+            "count": 2,
+            "totalMs": 36.89999999990687,
+            "longestMs": 21.399999999906868
+          },
+          "actionRead": {
+            "count": 10027,
+            "totalMs": 1018.799999978859,
+            "longestMs": 3.3999999999068677
+          },
+          "close": {
+            "count": 1,
+            "totalMs": 3.800000000046566,
+            "longestMs": 3.800000000046566
+          }
+        }
+      },
+      "cloudCounts": {
+        "changes": 10003,
+        "conflicts": 0,
+        "live": 10003,
+        "replicas": 2,
+        "tombstones": 0,
+        "users": 1,
+        "byType": {
+          "action": 10002,
+          "profile": 1
+        }
+      },
+      "rpcResponseCounts": {
+        "/rest/v1/rpc/account_status:200": 4,
+        "/rest/v1/rpc/sync_push:200": 23,
+        "/rest/v1/rpc/sync_open_conflicts:200": 6,
+        "/rest/v1/rpc/sync_pull:200": 45
+      },
+      "measurements": {
+        "backend": "selected local test stack",
+        "seeded": {
+          "size": 10000,
+          "seedMs": 887
+        },
+        "upload": {
+          "uploadMs": 69076,
+          "captureOpenMs": 19,
+          "captureSaveMs": 822,
+          "inboxOpenMs": 134,
+          "longTasks": {
+            "count": 2,
+            "longestMs": 165,
+            "totalMs": 222
+          },
+          "usedJSHeapSize": 17071378,
+          "workerRoundTrips": {
+            "executeScript": {
+              "count": 125,
+              "totalMs": 3887.700000000419,
+              "longestMs": 181.4000000001397
+            },
+            "run": {
+              "count": 30317,
+              "totalMs": 12929.900000006659,
+              "longestMs": 915.3999999999069
+            },
+            "all": {
+              "count": 474,
+              "totalMs": 621.1000000014901,
+              "longestMs": 67.69999999995343
+            },
+            "actionRead": {
+              "count": 40047,
+              "totalMs": 4820.999999990221,
+              "longestMs": 19.5999999998603
+            },
+            "get": {
+              "count": 1276,
+              "totalMs": 201.10000000079162,
+              "longestMs": 36.5999999998603
+            },
+            "commit": {
+              "count": 125,
+              "totalMs": 27199.40000000084,
+              "longestMs": 471.5
+            }
+          }
+        },
+        "pull": {
+          "frameMs": 4005,
+          "pullMs": 30547,
+          "captureOpenMs": 14,
+          "captureSaveMs": 1323,
+          "inboxOpenMs": 1298,
+          "longTasks": {
+            "count": 0,
+            "longestMs": 0,
+            "totalMs": 0
+          },
+          "usedJSHeapSize": 22675419,
+          "workerRoundTrips": {
+            "init": {
+              "count": 2,
+              "totalMs": 140.0999999998603,
+              "longestMs": 117
+            },
+            "executeScript": {
+              "count": 191,
+              "totalMs": 1574.2999999998137,
+              "longestMs": 126.69999999995343
+            },
+            "get": {
+              "count": 20220,
+              "totalMs": 1650.999999995809,
+              "longestMs": 6.2999999998137355
+            },
+            "all": {
+              "count": 594,
+              "totalMs": 450.50000000023283,
+              "longestMs": 44.800000000046566
+            },
+            "run": {
+              "count": 40157,
+              "totalMs": 18011.900000021793,
+              "longestMs": 20.100000000093132
+            },
+            "commit": {
+              "count": 111,
+              "totalMs": 7940.700000000885,
+              "longestMs": 479.39999999990687
+            },
+            "checkedHealth": {
+              "count": 2,
+              "totalMs": 36.89999999990687,
+              "longestMs": 21.399999999906868
+            },
+            "actionRead": {
+              "count": 10026,
+              "totalMs": 1015.6999999789987,
+              "longestMs": 3.3999999999068677
+            },
+            "close": {
+              "count": 1,
+              "totalMs": 3.800000000046566,
+              "longestMs": 3.800000000046566
+            }
+          }
+        },
+        "records": {
+          "cloudActions": 10002,
+          "cloudLive": 10003,
+          "onA": 10003,
+          "onB": 10003
+        },
+        "budgets": {
+          "uploadMs": 120000,
+          "pullMs": 90000,
+          "captureOpenWorstMs": 500,
+          "captureSaveWorstMs": 1000,
+          "inboxOpenWorstMs": 1500,
+          "longestTaskMs": 250
+        }
+      },
+      "screenshot": "<local artifact>"
+    }
+  }
+}

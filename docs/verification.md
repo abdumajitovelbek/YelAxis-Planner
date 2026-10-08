@@ -4,7 +4,59 @@ This beta source release distinguishes implemented safeguards, automated evidenc
 that have not been performed. The presence of tests is not a claim that a particular public revision
 passed them.
 
-## Public verification record
+## Beta 2 GitHub verification
+
+The
+[complete required CI run](https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37791860197)
+finished successfully on 2026-10-08 against `1a6142b3fdb6bceaa142193b3ac9a39e37e8fe7c`. Both
+workspace and browser/backend/release jobs completed with success; dispatch and partial logs are not
+counted as passes. [Exact results and all reports](release/ci-verification-results.json) retain the
+source revision, UTC times, pinned environment, counts and measured bounds.
+
+| Gate                        | Completed result                                                                                                    |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Repository aggregate checks | Exit 0; 214 files / 3,087 workspace tests and 36 scanner/configuration tests; policy, format, lint and types passed |
+| Backend                     | Exit 0; 6 files / 61 tests, including catalog and RLS checks                                                        |
+| Browser gate                | Exit 0; 29/29 stages: build, backend and 27 browser suites                                                          |
+| Release gate                | Exit 0; build, artifact, dependency audit and six Chromium/Firefox accessibility, performance and security suites   |
+
+GitHub environment: Node 24.18.0, pnpm 11.9.0, Linux runner and the digest-pinned Playwright 1.62.0
+Noble image. Full managed Chromium and Firefox exercise synthetic plans; backend data belongs only
+to the disposable `yelaxis-planner` stack. The workflow stopped that stack successfully.
+
+### Large-sync performance
+
+The final full CI used 10,000 seeded Actions plus a capture on each client. Both canonical plans
+converged to **10,003 live records**, matching the cloud; nothing remained in the outbox. The
+[earlier focused diagnostic](release/sync-performance-ci.json) also passed the same limits.
+
+| Metric | Upload | Pull | Unchanged limit | | --- | --- | --- | | Transfer completion | 48,757 ms |
+25,254 ms | 120,000 / 90,000 ms | | Capture open | 16 ms | 14 ms | 500 ms | | Capture save | 814 ms
+| 823 ms | 1,000 ms | | Inbox open | 92 ms | 196 ms | 1,500 ms | | Main-thread longest task | 133 ms
+| 0 ms | 250 ms |
+
+The [failure investigation](release/ci-investigation.md) records the earlier parser, runner,
+fixture, Firefox navigation and Action-loading defects. It also preserves failed performance
+diagnostics and the measured snapshot-compression bottleneck; neither failed runs nor the rejected
+250-operation experiment is described as passing.
+
+`v0.1.0-beta.1` remains fixed at `69f76baf7a7613e623fa5c751ac075ad4ed33823`. Beta 2 contains the
+runtime fixes. Any following delivery commit changes documentation/evidence only; runtime, tests,
+dependency graph and workflow configuration remain exactly those covered by the completed CI. This
+is a beta source release, not stable-release readiness or a verified hosted service.
+
+### Final release performance
+
+| Browser  | First full-check render | Warm Today | Offline cold render | Worst of 48 navigations | Peak owned RSS   |
+| -------- | ----------------------- | ---------- | ------------------- | ----------------------- | ---------------- |
+| chromium | 1518.8 ms               | 913.4 ms   | 968.6 ms            | 883.6 ms                | 1462755328 bytes |
+| firefox  | 4054.3 ms               | 1990.5 ms  | 2004 ms             | 2010.5 ms               | 1377763328 bytes |
+
+All original query, write, render, navigation, memory and main-thread bounds passed. Firefox
+heap/LongTasks APIs remain unavailable, not passes. The full JSON retains every asserted sample and
+durable count.
+
+## Earlier public verification record
 
 Final local verification completed on 2026-10-07 against the runtime tree delivered at
 `83f58504f43967b01ce64ac331b31c34d130c7d4`. The repository, browser and release gates retain their
@@ -88,14 +140,9 @@ Concrete verification failures were corrected without changing product rules or 
   complete row arrays or envelopes. Three regressions preserve typed/empty results and reject
   malformed output; all 61 real-backend tests pass.
 
-At delivery, the
-[full CI run](https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37643421585) has
-completed workspace checks successfully; its browser/release job remains unfinished. GitHub reported
-a [major Actions incident](https://www.githubstatus.com/incidents/djlmxz2zd0j7) during this run. No
-full cloud-browser or cloud-release pass is claimed. Completed focused Firefox, connectivity and
-backend diagnostics establish the corrected runner setup; the complete local gates above are green.
-If the existing job does not finish after service recovery, rerun this CI revision. The observed
-delivery status is recorded in [ci-delivery-status.json](release/ci-delivery-status.json).
+The earlier full run on `83f5850` completed with a browser-account JSON parsing failure. It did not
+remain unfinished, and a service incident does not explain that exception. The corrected final CI
+and investigation above supersede its delivery status.
 
 ## What the automated suites cover
 

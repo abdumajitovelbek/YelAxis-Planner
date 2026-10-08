@@ -1,0 +1,135 @@
+{
+  "recordVersion": 1,
+  "sourceCommit": "1a6142b3fdb6bceaa142193b3ac9a39e37e8fe7c",
+  "runUrl": "https://github.com/abdumajitovelbek/YelAxis-Planner/actions/runs/37791163153",
+  "conclusion": "success",
+  "createdUtc": "2026-10-08T14:16:54Z",
+  "finishedUtc": "2026-10-08T14:21:18Z",
+  "reports": [
+    {
+      "backend": "selected local test stack",
+      "seeded": {
+        "size": 10000,
+        "seedMs": 1129
+      },
+      "upload": {
+        "uploadMs": 84789,
+        "captureOpenMs": 23,
+        "captureSaveMs": 834,
+        "inboxOpenMs": 195,
+        "longTasks": {
+          "count": 2,
+          "longestMs": 229,
+          "totalMs": 306
+        },
+        "usedJSHeapSize": 22051924,
+        "workerRoundTrips": {
+          "executeScript": {
+            "count": 130,
+            "totalMs": 5054.999999999738,
+            "longestMs": 228.39999999999418
+          },
+          "run": {
+            "count": 30322,
+            "totalMs": 16859.400000001508,
+            "longestMs": 1373.2000000000116
+          },
+          "all": {
+            "count": 492,
+            "totalMs": 847.4000000002852,
+            "longestMs": 98.39999999999418
+          },
+          "actionRead": {
+            "count": 40052,
+            "totalMs": 6512.900000000227,
+            "longestMs": 5.2999999999883585
+          },
+          "get": {
+            "count": 1411,
+            "totalMs": 265.0000000002037,
+            "longestMs": 44.10000000000582
+          },
+          "commit": {
+            "count": 130,
+            "totalMs": 31796.300000000017,
+            "longestMs": 517.5
+          }
+        }
+      },
+      "pull": {
+        "frameMs": 3335,
+        "pullMs": 42453,
+        "captureOpenMs": 17,
+        "captureSaveMs": 815,
+        "inboxOpenMs": 796,
+        "longTasks": {
+          "count": 1,
+          "longestMs": 54,
+          "totalMs": 54
+        },
+        "usedJSHeapSize": 22513465,
+        "workerRoundTrips": {
+          "init": {
+            "count": 2,
+            "totalMs": 145.90000000002328,
+            "longestMs": 117.70000000001164
+          },
+          "executeScript": {
+            "count": 231,
+            "totalMs": 2748.399999999994,
+            "longestMs": 159.40000000002328
+          },
+          "get": {
+            "count": 20318,
+            "totalMs": 2109.5000000032014,
+            "longestMs": 7.699999999982538
+          },
+          "all": {
+            "count": 906,
+            "totalMs": 759.4000000000815,
+            "longestMs": 57.20000000001164
+          },
+          "run": {
+            "count": 40217,
+            "totalMs": 23006.59999999852,
+            "longestMs": 22.10000000000582
+          },
+          "commit": {
+            "count": 151,
+            "totalMs": 13102.899999999703,
+            "longestMs": 435.0999999999767
+          },
+          "checkedHealth": {
+            "count": 2,
+            "totalMs": 44.69999999998254,
+            "longestMs": 25.29999999998836
+          },
+          "actionRead": {
+            "count": 10045,
+            "totalMs": 1323.2000000001572,
+            "longestMs": 6.599999999976717
+          },
+          "close": {
+            "count": 1,
+            "totalMs": 4,
+            "longestMs": 4
+          }
+        }
+      },
+      "records": {
+        "cloudActions": 10002,
+        "cloudLive": 10003,
+        "onA": 10003,
+        "onB": 10003
+      },
+      "budgets": {
+        "uploadMs": 120000,
+        "pullMs": 90000,
+        "captureOpenWorstMs": 500,
+        "captureSaveWorstMs": 1000,
+        "inboxOpenWorstMs": 1500,
+        "longestTaskMs": 250
+      }
+    }
+  ]
+}

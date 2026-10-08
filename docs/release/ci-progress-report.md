@@ -1,6 +1,8 @@
 # CI investigation pause report
 
-Recorded 2026-10-08. **Paused at the owner's request; final CI verification is incomplete.**
+Recorded 2026-10-08. **Historical pause checkpoint.** The owner subsequently authorized resumption.
+See [verification](../verification.md) and the [investigation](ci-investigation.md) for later
+completed results; the observations below describe the pause, not current release status.
 
 The current code checkpoint is
 [`e7cc6f3d3b7a2d52cb6741084cfa6b2212bb9049`](https://github.com/abdumajitovelbek/YelAxis-Planner/commit/e7cc6f3d3b7a2d52cb6741084cfa6b2212bb9049),
