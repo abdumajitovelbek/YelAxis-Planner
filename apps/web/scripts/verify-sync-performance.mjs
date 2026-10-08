@@ -109,6 +109,41 @@ async function launch(directory) {
   // Main-thread long tasks, from the first script on every page.
   await context.addInitScript(() => {
     window.__longTasks = [];
+    // Aggregate worker round trips without retaining SQL, parameters, content or credentials.
+    window.__sqliteMetrics = {};
+    const observedWorkers = new WeakMap();
+    const postMessage = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function (request, ...args) {
+      if (typeof request?.id === 'number' && typeof request.operation === 'string') {
+        let pending = observedWorkers.get(this);
+        if (!pending) {
+          pending = new Map();
+          observedWorkers.set(this, pending);
+          this.addEventListener('message', ({ data }) => {
+            const measured = pending.get(data?.id);
+            if (!measured) return;
+            pending.delete(data.id);
+            const elapsed = performance.now() - measured.start;
+            const metric = (window.__sqliteMetrics[measured.kind] ??= {
+              count: 0,
+              totalMs: 0,
+              longestMs: 0,
+            });
+            metric.count += 1;
+            metric.totalMs += elapsed;
+            metric.longestMs = Math.max(metric.longestMs, elapsed);
+          });
+        }
+        const kind =
+          request.operation === 'get' && /FROM actions\s+WHERE/iu.test(request.sql ?? '')
+            ? 'actionRead'
+            : request.operation === 'executeScript' && /^COMMIT/iu.test(request.sql ?? '')
+              ? 'commit'
+              : request.operation;
+        pending.set(request.id, { kind, start: performance.now() });
+      }
+      return postMessage.call(this, request, ...args);
+    };
     try {
       new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
@@ -244,6 +279,7 @@ try {
   accounts.push(accountId);
   observedAccount = accountId;
   const uploadStart = await A.page.evaluate(() => performance.now());
+  await A.page.evaluate(() => (window.__sqliteMetrics = {}));
   const uploadStarted = performance.now();
   await A.page.getByRole('button', { name: 'Upload this plan' }).click();
   await A.page.locator('.sync-status-line[data-state="first_upload"]').waitFor({
@@ -261,6 +297,7 @@ try {
     { timeout: 60_000, interval: 2_000 },
   );
   const uploadHeap = await A.page.evaluate(() => performance.memory?.usedJSHeapSize ?? null);
+  const uploadWorker = await A.page.evaluate(() => window.__sqliteMetrics);
 
   /* ───────────── B pulls them ───────────── */
   const B = await launch(await profileDirectory('B'));
@@ -286,6 +323,7 @@ try {
   const pullMs = rounded(performance.now() - pullStarted);
   const pullTasks = summarizeTasks(await longTasksSince(B.page, pullStart));
   const pullHeap = await B.page.evaluate(() => performance.memory?.usedJSHeapSize ?? null);
+  const pullWorker = await B.page.evaluate(() => window.__sqliteMetrics);
   process.stderr.write(
     `measured: upload ${String(uploadMs)} ms ${JSON.stringify(duringUpload)} ${JSON.stringify(uploadTasks)}; pull ${String(pullMs)} ms (frame ${String(frameMs)} ms) ${JSON.stringify(duringPull)} ${JSON.stringify(pullTasks)}\n`,
   );
@@ -329,8 +367,21 @@ try {
   const report = {
     backend: 'selected local test stack',
     seeded: JSON.parse(seeded ?? '{}'),
-    upload: { uploadMs, ...duringUpload, longTasks: uploadTasks, usedJSHeapSize: uploadHeap },
-    pull: { frameMs, pullMs, ...duringPull, longTasks: pullTasks, usedJSHeapSize: pullHeap },
+    upload: {
+      uploadMs,
+      ...duringUpload,
+      longTasks: uploadTasks,
+      usedJSHeapSize: uploadHeap,
+      workerRoundTrips: uploadWorker,
+    },
+    pull: {
+      frameMs,
+      pullMs,
+      ...duringPull,
+      longTasks: pullTasks,
+      usedJSHeapSize: pullHeap,
+      workerRoundTrips: pullWorker,
+    },
     records: { cloudActions: cloud.byType.action, cloudLive: cloud.live, onA, onB },
     budgets,
   };
@@ -371,6 +422,7 @@ try {
             max: node.max,
           })),
           visible: document.visibilityState,
+          workerRoundTrips: window.__sqliteMetrics,
         }))
         .catch(() => ({ unavailable: true }))
     : null;

@@ -12,13 +12,9 @@ import { BoundedMemoryVFS } from './bounded-memory-vfs';
 import { isConnectionConfiguration } from './connection-configuration';
 import { imageHealthProof, matchesHealthProof } from './health-proof';
 import type { DatabaseHealth, ForeignKeyViolation } from '../health';
-import {
-  decodeSnapshotValue,
-  encodeSnapshotValue,
-  exactSnapshotBuffer,
-  type EncodedSnapshot,
-} from './snapshot-bytes';
+import { decodeSnapshotValue, exactSnapshotBuffer, type EncodedSnapshot } from './snapshot-bytes';
 import { retireOwnedSnapshot } from './retire-snapshot';
+import { SnapshotEncoder } from './snapshot-encoder';
 import type {
   BrowserSqliteRequest,
   BrowserSqliteResponse,
@@ -49,6 +45,7 @@ let activeDatabaseName = defaultDatabaseName;
 let releaseDatabaseLock: (() => void) | undefined;
 let transactionSnapshot: EncodedSnapshot | undefined;
 let transactionActive = false;
+const snapshotEncoder = new SnapshotEncoder();
 
 let requestQueue = Promise.resolve();
 
@@ -159,7 +156,7 @@ async function executeScript(sql: string): Promise<void> {
     if (transactionActive) {
       throw workerError('database_busy', 'A database transaction is already active.');
     }
-    transactionSnapshot = await encodeSnapshotValue(currentFileBytes());
+    transactionSnapshot = await snapshotEncoder.encode(currentFileBytes());
     await requireSqlite().exec(requireDatabase(), sql);
     transactionActive = true;
     return;
@@ -203,7 +200,7 @@ async function executeScript(sql: string): Promise<void> {
 
 async function durableMutation<Result>(operation: () => Result | Promise<Result>): Promise<Result> {
   if (transactionActive) return await operation();
-  const before = await encodeSnapshotValue(currentFileBytes());
+  const before = await snapshotEncoder.encode(currentFileBytes());
   try {
     return await mutateAndPersist(operation, before);
   } finally {
@@ -426,6 +423,7 @@ async function checkedHealth(policy: string | undefined): Promise<DatabaseHealth
 }
 
 async function closeDatabase(): Promise<void> {
+  snapshotEncoder.clear();
   if (database === undefined || sqlite === undefined) return;
   const closing = database;
   database = undefined;
@@ -551,7 +549,7 @@ async function readSnapshot(key: string): Promise<Uint8Array | undefined> {
 }
 
 async function writeSnapshot(key: string, bytes: Uint8Array): Promise<void> {
-  const value = await encodeSnapshotValue(bytes);
+  const value = await snapshotEncoder.encode(bytes);
   const transaction = requireSnapshotDatabase().transaction(snapshotStoreName, 'readwrite');
   transaction.objectStore(snapshotStoreName).put(value, key);
   await transactionComplete(transaction);
@@ -568,7 +566,7 @@ async function writeAndDeleteSnapshots(
   bytes: Uint8Array,
   deleteKey: string,
 ): Promise<void> {
-  const value = await encodeSnapshotValue(bytes);
+  const value = await snapshotEncoder.encode(bytes);
   const transaction = requireSnapshotDatabase().transaction(snapshotStoreName, 'readwrite');
   const store = transaction.objectStore(snapshotStoreName);
   store.put(value, writeKey);
