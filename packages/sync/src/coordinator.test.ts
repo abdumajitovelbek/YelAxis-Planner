@@ -164,18 +164,27 @@ function fakeCoordinator(options: { hold?: Gate } = {}) {
 }
 
 describe('coordinator triggers', () => {
-  it('uses bounded full pull pages by default and honors smaller explicit pages', async () => {
-    for (const [configured, expected] of [
-      [undefined, 500],
-      [50, 50],
-      [900, 500],
+  it('bounds normal pull transactions, keeps first-upload capacity and honors explicit pages', async () => {
+    for (const [configured, linking, expected] of [
+      [undefined, true, 500],
+      [undefined, false, 250],
+      [50, true, 50],
+      [50, false, 50],
+      [900, false, 500],
     ] as const) {
       const calls: string[] = [];
       const limits: number[] = [];
       const transport = countingTransport(calls);
       const time = new ManualTime();
+      const application = fakeApplication(calls);
       const coordinator = createSyncCoordinator({
-        application: fakeApplication(calls),
+        application: {
+          ...application,
+          facts: async () => ({
+            ...(await application.facts()),
+            link: linking ? 'linking' : 'linked',
+          }),
+        },
         transport: {
           ...transport,
           pull: (request) => {

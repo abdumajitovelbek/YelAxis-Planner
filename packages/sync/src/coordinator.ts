@@ -399,9 +399,13 @@ class Coordinator implements SyncCoordinator {
     }
     const limit = Math.max(
       1,
-      // Each applied page persists a durable checkpoint/image. Use the protocol's bounded page
-      // capacity by default to avoid repeating that work for unnecessarily small batches.
-      Math.min(this.#options.pullPageSize ?? syncLimits.changesPerPage, syncLimits.changesPerPage),
+      // First uploads mostly reconcile their already-acknowledged rows. Other pulls may create
+      // every row, so bound that atomic writer transaction to leave room for foreground commands.
+      // Keep the existing protocol cap and smaller explicitly configured pages.
+      Math.min(
+        this.#options.pullPageSize ?? (facts.link === 'linking' ? syncLimits.changesPerPage : 250),
+        syncLimits.changesPerPage,
+      ),
     );
     const maxHeld = Math.max(1, this.#options.maxHeldPages ?? 20);
     const maxPages = this.#options.maxPagesPerCycle ?? 200;
